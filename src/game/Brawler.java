@@ -11,7 +11,7 @@ public class Brawler extends Sprite {
 	};
 
 	public Brawler(double x, double y, int action, double r) {
-		super(x, y, action, name, 10, 4, "png");
+		super(x -Camera.x, y, action, name, 10, 4, "png");
 		this.r = r;
 	}
 	

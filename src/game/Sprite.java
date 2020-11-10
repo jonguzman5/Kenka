@@ -76,16 +76,11 @@ public class Sprite {
 		moving = true;
 	}
 
-//	public void jumpUp(double d) {
-//		vx += d;
-//		action = JUMP;
-//	}
-
 	public void draw(Graphics g) {
 		if (moving)
-			g.drawImage(animation[action].getCurrentImage(), (int) x, (int) y, null);
+			g.drawImage(animation[action].getCurrentImage(), (int) x, (int) y, 30, 60, null);//added w30, h60 to enlarge sprites
 		else
-			g.drawImage(animation[action].getStillImage(), (int) x, (int) y, null);
+			g.drawImage(animation[action].getStillImage(), (int) x, (int) y, 30, 60, null);
 		moving = false;
 	}
 

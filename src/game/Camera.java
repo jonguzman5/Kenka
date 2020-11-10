@@ -1,8 +1,11 @@
 package game;
 
 public class Camera {
-	static double x;
-	static double y;
+	public static int x;
+	public static int y;
+	
+	public static int x_origin = 0;
+	public static int y_origin = 0;
 	
 	public static void moveLeft(double dx) {
 		x -= dx;

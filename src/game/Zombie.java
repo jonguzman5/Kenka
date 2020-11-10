@@ -7,7 +7,12 @@ public class Zombie extends Sprite {
 	int a;
 	boolean alive = true;
 
-	public static final String[] name = { "z/z_up", "z/z_dn", "z/z_lt", "z/z_rt" };
+	public static final String[] name = { 
+			"z/z_up", 
+			"z/z_dn", 
+			"z/z_lt", 
+			"z/z_rt" 
+	};
 
 	public Zombie(double x, double y, int action, double r, int a) {
 		super(x, y, action, name, 10, 4, "png");
