@@ -78,9 +78,12 @@ public class Sprite {
 
 	public void draw(Graphics g) {
 		if (moving)
-			g.drawImage(animation[action].getCurrentImage(), (int) x, (int) y, 30, 60, null);//added w30, h60 to enlarge sprites
+			//g.drawImage(animation[action].getCurrentImage(), (int) x, (int) y, 30, 60, null);
+			g.drawImage(animation[action].getCurrentImage(), (int) x, (int) y, null);
+		
 		else
-			g.drawImage(animation[action].getStillImage(), (int) x, (int) y, 30, 60, null);
+			//g.drawImage(animation[action].getStillImage(), (int) x, (int) y, 30, 60, null);
+			g.drawImage(animation[action].getStillImage(), (int) x, (int) y, null);
 		moving = false;
 	}
 

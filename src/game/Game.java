@@ -12,26 +12,24 @@ public class Game extends GameApplet {
 	Line[] l = new Line[3];
 	Circle[] bullet = new Circle[40];
 	
-	public static final int s = 64;
+	public static final int s = 60;
 	
-	//60x20
+	//80x20
 	String[]map = {
-			  "#############################################",
-			  "#############################################",
-			  "###############fghij##########fghij##########",
-			  "#ABBC########a##############a################",
-			  "#DEEF########b#d#klm########b#q#ABC##########",
-			  "#GHHI########c#e#nop########c#r#GHI##########",
-		      ".............................................",
-		      ".............................................",
-		      ".............................................",
-		      ".............................................",
-		      ".............................................",
-		      ".............................................",
+			  "#################################################################",
+			  "#################################################################",
+			  "###############fghij##########fghij##############################",
+			  "#ABBC########a##############a####################################",
+			  "#DEEF########b#d#klm########b#q#ABC##############################",
+			  "#GHHI########c#e#nop########c#r#GHI##############################",
+			  ".................................................................",
+			  ".................................................................",
+			  ".................................................................",
+		      "........JK.............JK.............JK.........................",
+		      "........LM.............LM.............LM.........................",
+		      "........NO.............NO.............NO.........................",
 	};
-	
-	//Image wall = getImage("st/st_5.png");
-	//Image ground = getImage("st/st_112.png");
+
 	Image[] tiles;
 
 	public void init() {
@@ -56,10 +54,8 @@ public class Game extends GameApplet {
 		}
 
 		double[][] v = { 
-				//{ 720, 720, 20, 720 }, // bottom
 				{ 720, 720, 0, 720 }, // bottom
 				{ 720, 0, 720, 720 }, // right
-				//{ 20, 720, 20, 0 }// left
 				{ 0, 720, 0, 0 }// left
 		};
 
@@ -74,8 +70,6 @@ public class Game extends GameApplet {
 		//----------------------------------Camera--------------------------------------//
 	    if(pressing[RT])  Camera.moveRight(3);
 	    //if(pressing[LT])  Camera.moveLeft(3);
-	    //if(pressing[UP])  Camera.moveUp(3);;
-	    //if(pressing[DN])  Camera.moveDown(3);
 		//----------------------------------Bullet--------------------------------------//
 		for(int i = 0; i < bullet.length; i++) {
 			bullet[i].move();
@@ -92,7 +86,12 @@ public class Game extends GameApplet {
 		    int bottom = (int) zombies[i].y + s-1;
 		    int left = (int) zombies[i].x;
 		    int right = (int) zombies[i].x + s-1;
-		    //if((map[(top-s/8)/s].charAt(left/s) == '.') && (map[(top-s/8)/s].charAt(right/s) == '.')){
+		    //if(
+		    	//(map[(top-s/8)/s].charAt(left/s) == '.') && (map[(top-s/8)/s].charAt(right/s) == '.') &&
+		    	//(map[top/s].charAt((left-s/8)/s) == '.') && (map[bottom/s].charAt((left-s/8)/s) == '.')	&&
+		    	//(map[top/s].charAt((left-s/8)/s) == '.') && (map[bottom/s].charAt((left-s/8)/s) == '.') && 
+		    	//(map[top/s].charAt((right+s/8)/s) == '.') && (map[bottom/s].charAt((right+s/8)/s) == '.')
+		    //){
 		    	if(zombies[i].alive) {
 					zombies[i].turnToward(brawler);
 					zombies[i].chase(brawler);
@@ -214,6 +213,19 @@ public class Game extends GameApplet {
 	        		  g.drawImage(tiles[83], s*col - Camera.x + Camera.x_origin, s*row, s, s, null);
 	        	  if(c == 'r')
 	        		  g.drawImage(tiles[101], s*col - Camera.x + Camera.x_origin, s*row, s, s, null);
+	        	  
+	        	  if(c == 'J')
+	        		  g.drawImage(tiles[33], s*col - Camera.x + Camera.x_origin, s*row, s, s, null);
+	        	  if(c == 'K')
+	        		  g.drawImage(tiles[99], s*col - Camera.x + Camera.x_origin, s*row, s, s, null);
+	        	  if(c == 'L')
+	        		  g.drawImage(tiles[57], s*col - Camera.x + Camera.x_origin, s*row, s, s, null);
+	        	  if(c == 'M')
+	        		  g.drawImage(tiles[58], s*col - Camera.x + Camera.x_origin, s*row, s, s, null);
+	        	  if(c == 'N')
+	        		  g.drawImage(tiles[92], s*col - Camera.x + Camera.x_origin, s*row, s, s, null);
+	        	  if(c == 'O')
+	        		  g.drawImage(tiles[56], s*col - Camera.x + Camera.x_origin, s*row, s, s, null);
 	          }
 	          else {
 	        	  g.drawImage(tiles[112], s*col - Camera.x + Camera.x_origin, s*row, s, s, null);
