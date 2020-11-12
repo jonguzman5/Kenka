@@ -3,9 +3,12 @@ package game;
 import java.awt.Graphics;
 
 public class Sprite {
-	double x;
-	double y;
-
+	int x;//double x
+	int y;//double y
+	int vx = 0;
+	int vy = 0;	
+	int ay = 0; 
+	
 	int action;
 
 	boolean moving = false;
@@ -19,8 +22,9 @@ public class Sprite {
 	Circle gun;
 
 	Animation[] animation;
-
-	public Sprite(double x, double y, int action, String[] name, int duration, int count, String extension) {
+	
+	//double x, double y
+	public Sprite(int x, int y, int action, String[] name, int duration, int count, String extension) {
 		this.x = x;
 		this.y = y;
 		this.action = action;

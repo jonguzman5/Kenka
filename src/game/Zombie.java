@@ -14,7 +14,8 @@ public class Zombie extends Sprite {
 			"z/z_rt" 
 	};
 
-	public Zombie(double x, double y, int action, double r, int a) {
+	//double x, double y
+	public Zombie(int x, int y, int action, double r, int a) {
 		super(x, y, action, name, 10, 4, "png");
 		this.r = r;
 		this.a = a;
