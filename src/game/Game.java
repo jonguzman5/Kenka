@@ -7,7 +7,7 @@ import java.util.*;
 public class Game extends GameApplet {
 	public static final int s = 64;
 	Random rnd = new Random(System.currentTimeMillis());
-	Brawler brawler = new Brawler(60, 480, Brawler.RIGHT, 23);//char img w
+	Brawler brawler = new Brawler(0, 0, Brawler.RIGHT, 23);//char img w
 	Zombie[] zombies = new Zombie[3];
 	Line[] l = new Line[3];
 	Circle[] bullet = new Circle[40];
@@ -17,7 +17,7 @@ public class Game extends GameApplet {
 
 	public void init() {
 		Camera.x = Camera.x_origin;
-		Camera.x = Camera.y_origin;
+		Camera.y = Camera.y_origin;
 		tile = new Image[128];
 		for(int i = 0; i < 128; i++) {
 			tile[i] = getImage("st/st_" + i + ".png");//not i+1 bc imgs start @ 0
@@ -37,9 +37,10 @@ public class Game extends GameApplet {
 		}
 
 		double[][] v = { 
-				{ 720, 720, 0, 720 }, // bottom
-				{ 720, 0, 720, 720 }, // right
-				{ 0, 720, 0, 0 }// left
+				{ 720, 720, 0, 720 },//bottom
+				//{ 720, 0, 720, 720 },//right
+				{4096, 0, 4096, 4096},//right
+				{ 0, 720, 0, 0 },//left
 		};
 
 		for(int i = 0; i < v.length; i++) {
@@ -51,8 +52,8 @@ public class Game extends GameApplet {
 
 	public void inGameLoop() {
 		//----------------------------------Camera--------------------------------------//
-	    if(pressing[RT])  Camera.moveRight(3);
-	    //if(pressing[LT])  Camera.moveLeft(3);
+	    //if(pressing[RT])  Camera.moveRight(s/12);
+	    //if(pressing[LT])  Camera.moveLeft(s/12);
 		//----------------------------------Bullet--------------------------------------//
 		for(int i = 0; i < bullet.length; i++) {
 			bullet[i].move();
@@ -72,8 +73,8 @@ public class Game extends GameApplet {
 		    	//(map.clearRightOf(zombies[i]))
 		    //){
 		    	if(zombies[i].alive) {
-					zombies[i].turnToward(brawler);
-					zombies[i].chase(brawler);
+					//zombies[i].turnToward(brawler);
+					//zombies[i].chase(brawler);
 					//zombies[i].launch(bullet);
 		    	}
 			//}
@@ -98,39 +99,48 @@ public class Game extends GameApplet {
 		}
 		//----------------------------------Brawler--------------------------------------//		
 		if(pressing[UP]) {
-			if(map.clearAbove(brawler))       
-				brawler.moveUp(3);
+			if(map.clearAbove(brawler)) {     
+				brawler.moveUp(s/12);
+				Camera.moveUp(s/12);
+			}
 		}
 	    if(pressing[DN]) {
-	    	if(map.clearBelow(brawler))
-	    		brawler.moveDown(3);
+	    	if(map.clearBelow(brawler)) {
+	    		brawler.moveDown(s/12);
+	    		Camera.moveDown(s/12);
+	    	}
 	    }
 	    if(pressing[LT]) {
-	    	if(map.clearLeftOf(brawler))
-	    		brawler.moveLeft(3);
-	    		//brawler.moveLeft(-s/8);
+	    	if(map.clearLeftOf(brawler)) {
+	    		brawler.moveLeft(s/12);
+	    		Camera.moveLeft(s/12);
+	    	}
 	    }
 	    if(pressing[RT]) {
-	    	if(map.clearRightOf(brawler))
-	    		brawler.moveRight(3);
-	    		//brawler.moveRight(+s/8);
+	    	if(map.clearRightOf(brawler)) {
+	    		brawler.moveRight(s/12);
+	    		Camera.moveRight(s/12);
+	    	}
 	    }
 	    if(pressing[SPACE]) 
 	    	brawler.shoot(bullet);
 	    
 	    for(int j = 0; j < l.length; j++) {
-	    	if(brawler.overlaps(l[j]))
+	    	if(brawler.overlaps(l[j])) {
 	    		brawler.isPushedBackBy(l[j]);
+	    		Camera.isPushedBackBy(l[j]);
+	    	}
 	    }
 	}
 
 	public void paint(Graphics g) {		
 		map.draw(g);		
 		brawler.draw(g);
+		Camera.draw(g);
 		
 		for(int i = 0; i < zombies.length; i++) {
-			if(zombies[i].alive)
-				zombies[i].draw(g);
+			//if(zombies[i].alive)
+				//zombies[i].draw(g);
 		}
 		for(int i = 0; i < bullet.length; i++) {
 			bullet[i].draw(g);

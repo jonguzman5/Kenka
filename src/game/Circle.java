@@ -18,7 +18,7 @@ public class Circle {
 	double launch_countdown = 30; 
 	
 	static int bulletNum = 0;
-	static final double GRAVITY = 0.4;
+	static final double GRAVITY = 0;
 	
 	boolean held = false;
 	boolean alive = true;

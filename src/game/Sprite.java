@@ -3,8 +3,8 @@ package game;
 import java.awt.Graphics;
 
 public class Sprite {
-	int x;//double x
-	int y;//double y
+	int x;//int x
+	int y;//int y
 	int vx = 0;
 	int vy = 0;	
 	int ay = 0; 
@@ -23,7 +23,7 @@ public class Sprite {
 
 	Animation[] animation;
 	
-	//double x, double y
+	//int x, int y
 	public Sprite(int x, int y, int action, String[] name, int duration, int count, String extension) {
 		this.x = x;
 		this.y = y;
@@ -50,33 +50,36 @@ public class Sprite {
 		
 		gun.launch(bullet);
 	}
-
-	public void moveBy(double dx, double dy) {
-		x += dx;
-		y += dy;
-	}
-
-	public void moveUp(double dy) {
-		y -= dy;
-		action = UP;
-		moving = true;
-	}
-
-	public void moveDown(double dy) {
-		y += dy;
-		action = DOWN;
-		moving = true;
-	}
-
-	public void moveLeft(double dx) {
+	
+	//double dx
+	public void moveLeft(int dx) {
 		x -= dx;
+		//vx = -dx;
 		action = LEFT;
 		moving = true;
 	}
 
-	public void moveRight(double dx) {
+	//double dx
+	public void moveRight(int dx) {
 		x += dx;
+		//vx = dx;
 		action = RIGHT;
+		moving = true;
+	}
+
+	//double dy
+	public void moveUp(int dy) {
+		y -= dy;
+		//vy = -dy;
+		action = UP;
+		moving = true;
+	}
+
+	//double dy
+	public void moveDown(int dy) {
+		y += dy;
+		//vy = dy;
+		action = DOWN;
 		moving = true;
 	}
 
