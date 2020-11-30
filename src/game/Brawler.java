@@ -45,13 +45,4 @@ public class Brawler extends Sprite {
 		
 		gun.launch(bullet);
 	}
-	
-	@Override
-	public void draw(Graphics g) {
-		if (moving)
-			g.drawImage(animation[action].getCurrentImage(), x - Camera.x + Camera.x_origin, y - Camera.y + Camera.y_origin, 30, 60, null);		
-		else
-			g.drawImage(animation[action].getStillImage(), x - Camera.x + Camera.x_origin, y - Camera.y + Camera.y_origin, 30, 60, null);
-		moving = false;
-	}
 }

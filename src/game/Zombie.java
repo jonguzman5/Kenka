@@ -1,11 +1,23 @@
 package game;
 
 public class Zombie extends Sprite {
+	boolean alive = true;
+	
 	double cosA;
 	double sinA;
-	double r;
+	
+	double x1;
+	double y1;
+	
+	double x2;
+	double y2;
+	
+	double nx;
+	double ny;
+	
 	int a;
-	boolean alive = true;
+	double r;
+	
 
 	public static final String[] name = { 
 			"z/z_up", 
@@ -21,6 +33,21 @@ public class Zombie extends Sprite {
 		this.a = a;
 		cosA = Lookup.cos[a];
 		sinA = Lookup.sin[a];
+		computeNormal();
+	}
+	
+	public void computeNormal() {
+		double vx = x;//FIX
+		double vy = y;//FIX		
+		double mag = Math.sqrt((vx * vx) + (vy * vy));		
+		double ux = vx / mag;
+		double uy = vy / mag;
+		nx = -uy;
+		ny = ux;
+	}
+	
+	public double distanceTo(double x, double y) {
+		return nx * (x - x1) + ny * (y - y1);
 	}
 
 	public boolean overlaps(Line l) {

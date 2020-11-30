@@ -17,9 +17,9 @@ public class TileMap {
 		this.s = scale;
 	}
 	
-	public TileMap(String filename, int scale) {
+	public TileMap(String img_dir, String filename, int scale) {
 		loadMap(filename);
-		loadAssets();
+		loadAssets(img_dir);
 		s = scale;
 	}
 	
@@ -44,10 +44,10 @@ public class TileMap {
 		catch(IOException e){};	
 	}
 	
-	public void loadAssets() {
+	public void loadAssets(String img_dir) {
 		tile = new Image[tile_name.length];
 		for(int i = 0; i < tile.length; i++) {
-			tile[i] = getImage(tile_name[i]);
+			tile[i] = getImage(img_dir + "/" + tile_name[i]);
 		}
 		//background = getImage(background_name);
 	}
@@ -126,6 +126,7 @@ public class TileMap {
 	      for(int row = 0; row < map.length; row++) {
 	          for(int col = 0; col < map[row].length(); col++) {
 	            char c = map[row].charAt(col);
+	            //g.drawImage(tile[c], s*col - Camera.x + Camera.x_origin, s*row - Camera.y + Camera.y_origin, s, s, null);
 	            if(c != '.') {
 		              if(c == '#')
 		                g.drawImage(tile[5], s*col - Camera.x + Camera.x_origin, s*row - Camera.y + Camera.y_origin, s, s, null);

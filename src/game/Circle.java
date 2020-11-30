@@ -40,7 +40,12 @@ public class Circle {
 			bullet[bulletNum].vy = speed * sinA;
 			//starting pt
 			bullet[bulletNum].x = x + (r+6) * cosA;
-			bullet[bulletNum].y = y + (r+6) * sinA; 	
+			bullet[bulletNum].y = y + (r+6) * sinA;
+			
+			//if(bullet[bulletNum].x >= 500 || bullet[bulletNum].y >= 500) {
+				//bullet[bulletNum].vx = 0;
+				//bullet[bulletNum].vy = 0;
+			//}
 
 			launch_delay = launch_countdown;
 			
@@ -138,6 +143,12 @@ public class Circle {
 		double d = l.distanceTo(x, y);
 		return d*d < r*r;//d < r = is the circle on side of line or other || overlap
 	}
+	
+	public boolean overlaps(Zombie z) {
+		double d = z.distanceTo(x, y);
+		return d*d < r*r;//d < r = is the circle on side of line or other || overlap
+	}
+	
 	public void isPushedBackBy(Line l) {
 		double d = l.distanceTo(x, y);
 		double p = r - d;
@@ -223,5 +234,5 @@ public class Circle {
 	
 	public void released() {
 		held = false;
-	}	
+	}
 }

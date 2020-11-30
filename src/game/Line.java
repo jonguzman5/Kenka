@@ -40,7 +40,8 @@ public class Line {
 	}
 	
 	public void draw(Graphics g) {
-		g.drawLine((int)x1, (int)y1, (int)x2, (int)y2);
+		//g.drawLine((int)x1, (int)y1, (int)x2, (int)y2);
+		g.drawLine((int)(x1 - Camera.x + Camera.x_origin), (int)(y1 - Camera.y + Camera.y_origin), (int)(x2 - Camera.x + Camera.x_origin), (int)(y2 - Camera.y + Camera.y_origin));
 	}
 	
 	int held_at = 0;//0:na,1:x1y1,2:x2y2
