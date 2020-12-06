@@ -6,14 +6,14 @@ public class TileMap {
 	private String[] map;
 	Image[] tile;
 	String[] tile_name;
-	//Image background;
+	Image background;
 	String background_name;
 	int s;
 	
-	public TileMap(String[] map, Image[] tile, int scale) {//, Image background
+	public TileMap(String[] map, Image[] tile, Image background, int scale) {
 		this.map = map;
 		this.tile = tile;
-		//this.background = background;
+		this.background = background;
 		this.s = scale;
 	}
 	
@@ -39,6 +39,9 @@ public class TileMap {
 			for(int i = 0; i < n; i++) {
 				tile_name[i] = input.readLine();
 			}
+			
+			background_name = input.readLine();	
+			
 			input.close();
 		}
 		catch(IOException e){};	
@@ -49,7 +52,7 @@ public class TileMap {
 		for(int i = 0; i < tile.length; i++) {
 			tile[i] = getImage(img_dir + "/" + tile_name[i]);
 		}
-		//background = getImage(background_name);
+		background = getImage(background_name);
 	}
 	//----------------------------------Brawler--------------------------------------//
 	public boolean clearAbove(Brawler b) {
@@ -120,7 +123,7 @@ public class TileMap {
 	}
 	
 	public void draw (Graphics g) {
-		//g.drawImage(background, 0, 0, null);
+		g.drawImage(background, 0, 0, null);
 		
 		// how many strs do i have
 	      for(int row = 0; row < map.length; row++) {

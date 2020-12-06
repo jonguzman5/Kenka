@@ -1,23 +1,20 @@
 package game;
 
+import java.awt.Graphics;
+
 public class Zombie extends Sprite {
 	boolean alive = true;
 	
 	double cosA;
 	double sinA;
 	
-	double x1;
-	double y1;
+	double launch_delay = 0;
+	double launch_countdown = 30; 
 	
-	double x2;
-	double y2;
-	
-	double nx;
-	double ny;
+	static int bulletNum = 0;
 	
 	int a;
 	double r;
-	
 
 	public static final String[] name = { 
 			"z/z_up", 
@@ -26,28 +23,18 @@ public class Zombie extends Sprite {
 			"z/z_rt" 
 	};
 
-	//double x, double y
 	public Zombie(int x, int y, int action, double r, int a) {
 		super(x, y, action, name, 10, 4, "png");
 		this.r = r;
 		this.a = a;
 		cosA = Lookup.cos[a];
 		sinA = Lookup.sin[a];
-		computeNormal();
-	}
-	
-	public void computeNormal() {
-		double vx = x;//FIX
-		double vy = y;//FIX		
-		double mag = Math.sqrt((vx * vx) + (vy * vy));		
-		double ux = vx / mag;
-		double uy = vy / mag;
-		nx = -uy;
-		ny = ux;
 	}
 	
 	public double distanceTo(double x, double y) {
-		return nx * (x - x1) + ny * (y - y1);
+		double dx = x - this.x;
+		double dy = y - this.y;
+		return Math.sqrt((dx* dx) + (dy * dy));
 	}
 
 	public boolean overlaps(Line l) {
@@ -117,14 +104,53 @@ public class Zombie extends Sprite {
 	}
 
 	public void turnToward(Brawler b) {
-		if (toLeftOf(b))
+		if (toLeftOf(b)) {
 			turnLeft(4);
-		else
+		}
+		else {
 			turnRight(4);
+		}
 	}
 
 	public void chase(Brawler b) {
 		turnToward(b);
 		goForward(4);
+	}
+
+	public void launch(Circle[] bullet) {
+		if(launch_delay == 0) {
+			//vel
+			double speed = 10;					
+			bullet[bulletNum].vx = speed * cosA;
+			bullet[bulletNum].vy = speed * sinA;
+			//starting pt
+			bullet[bulletNum].x = x + (r+6) * cosA;
+			bullet[bulletNum].y = y + (r+6) * sinA;
+			
+			//if(bullet[bulletNum].x >= 500 || bullet[bulletNum].y >= 500) {
+				//bullet[bulletNum].vx = 0;
+				//bullet[bulletNum].vy = 0;
+			//}
+
+			launch_delay = launch_countdown;
+			
+			bulletNum++;
+			if(bulletNum == bullet.length)
+				bulletNum = 0;
+		}
+		launch_delay--;
+	}
+
+	public void draw(Graphics g) {
+		super.draw(g);
+		g.drawOval((int)(x - r) - Camera.x + Camera.x_origin + 15, (int)(y - r) - Camera.y + Camera.y_origin + 30, (int)r * 2, (int)r * 2);
+	}
+	
+	public void drawBossZombie(Graphics g) {
+		if (moving)
+			g.drawImage(animation[action].getCurrentImage(), x - Camera.x + Camera.x_origin, y - Camera.y + Camera.y_origin, 60, 120, null);		
+		else
+			g.drawImage(animation[action].getStillImage(), x - Camera.x + Camera.x_origin, y - Camera.y + Camera.y_origin, 60, 120, null);
+		moving = false;
 	}
 }

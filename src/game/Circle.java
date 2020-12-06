@@ -4,10 +4,10 @@ import java.awt.Graphics;
 public class Circle {
 	double x;
 	double y;
-	double vx = 0;//right throw d
-	double vy = 0;//throw up
+	double vx = 0;
+	double vy = 0;
 	double ax = 0;
-	double ay = 0;//gravity pull
+	double ay = 0;
 	double r;
 	
 	int a;
@@ -71,13 +71,18 @@ public class Circle {
 	public boolean within(double distance, Circle c) {
 		double dx = x - c.x;
 		double dy = y - c.y;
-		return dx * dx + dy * dy < distance * distance;//"distance" px
+		return dx * dx + dy * dy < distance * distance;
 		
 	}
 	
 	public void draw(Graphics g) {
-		g.drawOval((int)(x-r), (int)(y-r), (int)(2.0*r), (int)(2.0*r));
-		g.drawLine((int)(x), (int)(y), (int)(x + r*cosA), (int)(y + r*sinA));
+		g.drawOval((int)(x-r) - Camera.x + Camera.x_origin, (int)(y-r) - Camera.y + Camera.y_origin, (int)(2.0*r), (int)(2.0*r));
+		g.drawLine(
+				(int)(x) - Camera.x + Camera.x_origin, 
+				(int)(y) - Camera.y + Camera.y_origin, 
+				(int)(x + r*cosA) - Camera.x + Camera.x_origin, 
+				(int)(y + r*sinA) - Camera.y + Camera.y_origin
+		);
 	}
 	
 	public void move() {
@@ -141,12 +146,17 @@ public class Circle {
 	
 	public boolean overlaps(Line l) {
 		double d = l.distanceTo(x, y);
-		return d*d < r*r;//d < r = is the circle on side of line or other || overlap
+		return d*d < r*r;
 	}
 	
 	public boolean overlaps(Zombie z) {
 		double d = z.distanceTo(x, y);
-		return d*d < r*r;//d < r = is the circle on side of line or other || overlap
+		return d*d < r*r;
+	}
+	
+	public boolean overlaps(Brawler b) {
+		double d = b.distanceTo(x, y);
+		return d*d < r*r;
 	}
 	
 	public void isPushedBackBy(Line l) {
@@ -157,10 +167,8 @@ public class Circle {
 	}
 	
 	public boolean overlaps(Circle c) {
-		//double d = Math.sqrt((x - c.x) * (x - c.x) + (y - c.y) * (y - c.y));
 		double d2 = (x - c.x) * (x - c.x) + (y - c.y) * (y - c.y);
 		return d2 < (r + c.r) * (r + c.r);
-		//return d < r + c.r;
 	}
 	
 	public void pushes(Circle c) {
@@ -187,24 +195,25 @@ public class Circle {
 		double mag = Math.sqrt(dx*dx + dy*dy);
 		
 		double ux = dx / mag;
-		//dx /= mag;
 		double uy = dy / mag;
-		//dy /= mag;
+		
 		double tx = -uy;
 		double ty = -ux;		
 		
 		//distances
-		double u = vx * ux + vy * uy;//vel in x * unit vec + vel in y + unit vec
+		double u = vx * ux + vy * uy;
 		double t = vx * tx + vy* ty;
 		
-		/**** Other Circle ****/
+		//other circle
 		double cu = c.vx * ux + c.vy * uy;
 		double ct = c.vx * tx + c.vy* ty;
-		//this
-		vx = 0.9 * (t * tx + cu * ux);//cu * ux = impact info from param
-		vy = 0.9 * (t * ty + cu * uy);//90% of orig str ea bounce
-		//OC
-		c.vx = 0.9 * (ct * tx + u * ux);//impact info from this
+		
+		//this circle
+		vx = 0.9 * (t * tx + cu * ux);
+		vy = 0.9 * (t * ty + cu * uy);
+		
+		//other circle
+		c.vx = 0.9 * (ct * tx + u * ux);
 		c.vy = 0.9 * (ct * ty + u * uy);
 	}
 	

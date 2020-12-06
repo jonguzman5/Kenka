@@ -3,7 +3,12 @@ package game;
 import java.awt.Graphics;
 
 public class Brawler extends Sprite {
+	boolean alive = true;
 	int r;
+	int a;
+	
+	double cosA;
+	double sinA;
 	
 	public static final String[] name = {
 			"b/b_up",
@@ -12,10 +17,18 @@ public class Brawler extends Sprite {
 			"b/b_rt"
 	};
 
-	//double x, double y
-	public Brawler(int x, int y, int action, int r) {
+	public Brawler(int x, int y, int action, int r, int a) {
 		super(x - Camera.x + Camera.x_origin, y - Camera.y + Camera.y_origin, action, name, 10, 4, "png");
 		this.r = r;
+		this.a = a;
+		cosA = Lookup.cos[a];
+		sinA = Lookup.sin[a];
+	}
+	
+	public double distanceTo(double x, double y) {
+		double dx = x - this.x;
+		double dy = y - this.y;
+		return Math.sqrt((dx* dx) + (dy * dy));
 	}
 	
 	public boolean overlaps(Line l) {
@@ -28,21 +41,5 @@ public class Brawler extends Sprite {
 		int p = r - d;
 		x += p * l.nx;
 		y += p * l.ny;
-	}
-	
-	@Override
-	public void shoot(Circle[] bullet) {
-		if(action == UP) 
-			gun.setAngle(270);
-		if(action == DOWN) 
-			gun.setAngle(90);
-		if(action == LEFT) 
-			gun.setAngle(180);
-		if(action == RIGHT) 
-			gun.setAngle(0);
-		gun.x = x - Camera.x + Camera.x_origin;
-		gun.y = y - Camera.y + Camera.y_origin + 20;
-		
-		gun.launch(bullet);
 	}
 }

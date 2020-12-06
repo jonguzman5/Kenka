@@ -35,16 +35,19 @@ public class Line {
 	}
 	
 	public double distanceTo(double x, double y) {
-		return nx * (x - x1) + ny * (y - y1);//if moving (translating: no recalculations, else)
-		//return x * nx + y * ny - c;//if still
+		return nx * (x - x1) + ny * (y - y1);
 	}
 	
 	public void draw(Graphics g) {
-		//g.drawLine((int)x1, (int)y1, (int)x2, (int)y2);
-		g.drawLine((int)(x1 - Camera.x + Camera.x_origin), (int)(y1 - Camera.y + Camera.y_origin), (int)(x2 - Camera.x + Camera.x_origin), (int)(y2 - Camera.y + Camera.y_origin));
+		g.drawLine(
+				(int)(x1 - Camera.x + Camera.x_origin), 
+				(int)(y1 - Camera.y + Camera.y_origin), 
+				(int)(x2 - Camera.x + Camera.x_origin), 
+				(int)(y2 - Camera.y + Camera.y_origin)
+		);
 	}
 	
-	int held_at = 0;//0:na,1:x1y1,2:x2y2
+	int held_at = 0;
 	
 	public boolean isHeld() {
 		return held_at != 0;
@@ -55,7 +58,7 @@ public class Line {
 		double dy;
 		dx = x1 - mx;
 		dy = y1 - my;
-		if(dx*dx + dy*dy < 49)//< r: 7^2
+		if(dx*dx + dy*dy < 49)
 			held_at = 1;
 		dx = x2 - mx;
 		dy = y2 - my;	

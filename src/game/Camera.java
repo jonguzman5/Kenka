@@ -8,31 +8,23 @@ public class Camera {
 	public static int y;
 	public static int r;
 	
-	public static int vx;
-	public static int vy;
-	public static int ay;
-	
 	public static int x_origin = 60;
 	public static int y_origin = 480;
 	
 	public static void moveLeft(int dx) {
 		x -= dx;
-		//vx = -dx;
 	}
 
 	public static void moveRight(int dx) {
 		x += dx;
-		//vx = dx;
 	}
 
 	public static void moveUp(int dy) {
 		y -= dy;
-		//vy = -dy;
 	}
 
 	public static void moveDown(int dy) {
 		y += dy;
-		//vy = dy;
 	}
 
 	public static void isPushedBackBy(Line l) {

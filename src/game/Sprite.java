@@ -3,8 +3,8 @@ package game;
 import java.awt.Graphics;
 
 public class Sprite {
-	int x;//int x
-	int y;//int y
+	int x;
+	int y;
 	int vx = 0;
 	int vy = 0;	
 	int ay = 0; 
@@ -23,7 +23,6 @@ public class Sprite {
 
 	Animation[] animation;
 	
-	//int x, int y
 	public Sprite(int x, int y, int action, String[] name, int duration, int count, String extension) {
 		this.x = x;
 		this.y = y;
@@ -47,50 +46,44 @@ public class Sprite {
 			gun.setAngle(0);
 		gun.x = x;
 		gun.y = y+20;
+		//gun.x = x - Camera.x + Camera.x_origin;
+		//gun.y = y - Camera.y + Camera.y_origin + 20;
 		
 		gun.launch(bullet);
 	}
 	
-	//double dx
 	public void moveLeft(int dx) {
 		x -= dx;
-		//vx = -dx;
 		action = LEFT;
 		moving = true;
 	}
 
-	//double dx
 	public void moveRight(int dx) {
 		x += dx;
-		//vx = dx;
 		action = RIGHT;
 		moving = true;
 	}
 
-	//double dy
 	public void moveUp(int dy) {
 		y -= dy;
-		//vy = -dy;
 		action = UP;
 		moving = true;
 	}
 
-	//double dy
 	public void moveDown(int dy) {
 		y += dy;
-		//vy = dy;
 		action = DOWN;
 		moving = true;
 	}
 
 	public void draw(Graphics g) {
 		if (moving)
-			//g.drawImage(animation[action].getCurrentImage(), (int) x, (int) y, 30, 60, null);
 			//g.drawImage(animation[action].getCurrentImage(), (int) x, (int) y, null);
+			//g.drawImage(animation[action].getCurrentImage(), (int) x, (int) y, 30, 60, null);
 			g.drawImage(animation[action].getCurrentImage(), x - Camera.x + Camera.x_origin, y - Camera.y + Camera.y_origin, 30, 60, null);		
 		else
-			//g.drawImage(animation[action].getStillImage(), (int) x, (int) y, 30, 60, null);
 			//g.drawImage(animation[action].getStillImage(), (int) x, (int) y, null);
+			//g.drawImage(animation[action].getStillImage(), (int) x, (int) y, 30, 60, null);
 			g.drawImage(animation[action].getStillImage(), x - Camera.x + Camera.x_origin, y - Camera.y + Camera.y_origin, 30, 60, null);
 		moving = false;
 	}
