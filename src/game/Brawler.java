@@ -2,7 +2,7 @@ package game;
 
 import java.awt.Graphics;
 
-public class Brawler extends Sprite {
+public class Brawler extends Character {
 	boolean alive = true;
 	int r;
 	int a;
@@ -10,15 +10,15 @@ public class Brawler extends Sprite {
 	double cosA;
 	double sinA;
 	
-	public static final String[] name = {
+	public static final String[] pose = {
 			"b/b_up",
 			"b/b_dn",
 			"b/b_lt",
 			"b/b_rt"
 	};
 
-	public Brawler(int x, int y, int action, int r, int a) {
-		super(x - Camera.x + Camera.x_origin, y - Camera.y + Camera.y_origin, action, name, 10, 4, "png");
+	public Brawler(int hit_points, int x, int y, int action, int r, int a) {
+		super(hit_points, x - Camera.x + Camera.x_origin, y - Camera.y + Camera.y_origin, action, pose, 10, 4, "png");
 		this.r = r;
 		this.a = a;
 		cosA = Lookup.cos[a];

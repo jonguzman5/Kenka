@@ -72,7 +72,6 @@ public class Circle {
 		double dx = x - c.x;
 		double dy = y - c.y;
 		return dx * dx + dy * dy < distance * distance;
-		
 	}
 	
 	public void draw(Graphics g) {

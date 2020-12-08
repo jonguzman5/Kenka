@@ -2,7 +2,7 @@ package game;
 
 import java.awt.Graphics;
 
-public class Zombie extends Sprite {
+public class Zombie extends Character {
 	boolean alive = true;
 	
 	double cosA;
@@ -16,15 +16,15 @@ public class Zombie extends Sprite {
 	int a;
 	double r;
 
-	public static final String[] name = { 
+	public static final String[] pose = { 
 			"z/z_up", 
 			"z/z_dn", 
 			"z/z_lt", 
 			"z/z_rt" 
 	};
 
-	public Zombie(int x, int y, int action, double r, int a) {
-		super(x, y, action, name, 10, 4, "png");
+	public Zombie(int hit_points, int x, int y, int action, double r, int a) {
+		super(hit_points, x, y, action, pose, 10, 4, "png");
 		this.r = r;
 		this.a = a;
 		cosA = Lookup.cos[a];
@@ -79,6 +79,12 @@ public class Zombie extends Sprite {
 
 	public boolean toLeftOf(Brawler b) {
 		return sinA * (b.x - x) - cosA * (b.y - y) > 0;
+	}
+	
+	public boolean within(double distance, Brawler b) {
+		double dx = x - b.x;
+		double dy = y - b.y;
+		return dx * dx + dy * dy < distance * distance;
 	}
 
 	public void turnLeft(int da) {
@@ -147,10 +153,15 @@ public class Zombie extends Sprite {
 	}
 	
 	public void drawBossZombie(Graphics g) {
-		if (moving)
-			g.drawImage(animation[action].getCurrentImage(), x - Camera.x + Camera.x_origin, y - Camera.y + Camera.y_origin, 60, 120, null);		
-		else
+		if (moving) {
+			g.drawImage(animation[action].getCurrentImage(), x - Camera.x + Camera.x_origin, y - Camera.y + Camera.y_origin, 60, 120, null);
+			//g.drawOval((int)(x - r) - Camera.x + Camera.x_origin + 30, (int)(y - r) - Camera.y + Camera.y_origin + 60, (int)r * 2, (int)r * 2);
+		}
+		else {
 			g.drawImage(animation[action].getStillImage(), x - Camera.x + Camera.x_origin, y - Camera.y + Camera.y_origin, 60, 120, null);
+			//g.drawOval((int)(x - r) - Camera.x + Camera.x_origin + 30, (int)(y - r) - Camera.y + Camera.y_origin + 60, (int)r * 2, (int)r * 2);
+		}
 		moving = false;
 	}
+
 }
