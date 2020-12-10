@@ -126,7 +126,7 @@ public class Zombie extends Character {
 	public void launch(Circle[] bullet) {
 		if(launch_delay == 0) {
 			//vel
-			double speed = 10;					
+			double speed = 5;					
 			bullet[bulletNum].vx = speed * cosA;
 			bullet[bulletNum].vy = speed * sinA;
 			//starting pt
@@ -155,11 +155,11 @@ public class Zombie extends Character {
 	public void drawBossZombie(Graphics g) {
 		if (moving) {
 			g.drawImage(animation[action].getCurrentImage(), x - Camera.x + Camera.x_origin, y - Camera.y + Camera.y_origin, 60, 120, null);
-			//g.drawOval((int)(x - r) - Camera.x + Camera.x_origin + 30, (int)(y - r) - Camera.y + Camera.y_origin + 60, (int)r * 2, (int)r * 2);
+			g.drawOval((int)(x - r) - Camera.x + Camera.x_origin + 30, (int)(y - r) - Camera.y + Camera.y_origin + 60, (int)r * 2, (int)r * 2);
 		}
 		else {
 			g.drawImage(animation[action].getStillImage(), x - Camera.x + Camera.x_origin, y - Camera.y + Camera.y_origin, 60, 120, null);
-			//g.drawOval((int)(x - r) - Camera.x + Camera.x_origin + 30, (int)(y - r) - Camera.y + Camera.y_origin + 60, (int)r * 2, (int)r * 2);
+			g.drawOval((int)(x - r) - Camera.x + Camera.x_origin + 30, (int)(y - r) - Camera.y + Camera.y_origin + 60, (int)r * 2, (int)r * 2);
 		}
 		moving = false;
 	}

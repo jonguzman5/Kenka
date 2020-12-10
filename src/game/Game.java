@@ -21,6 +21,9 @@ public class Game extends GameApplet {
 	Zombie[] zombieSet3 = new Zombie[setLen];
 	Zombie bossZombie = new Zombie(200, 3300, 495, Zombie.LEFT, 46, 0);
 	
+	//KungFuMan kungfuman = new KungFuMan(100, 100, 495, KungFuMan.LEFT, 23, 0);
+	//Soldier soldier = new Soldier(100, 100, 495, Soldier.LEFT, 23, 0);
+	
 	HealthBar bhb = new HealthBar(brawler, 0, 0, 100, 25);
 	HealthBar[] zhb1 = new HealthBar[setLen * setAm];
 	HealthBar[] zhb2 = new HealthBar[setLen * setAm];
@@ -75,7 +78,7 @@ public class Game extends GameApplet {
 
 	public void setBulletBehavior(Zombie[] zombies, Circle bullet) {
 		for (int j = 0; j < zombies.length; j++)
-			if (zombies[j].alive && bullet.overlaps(zombies[j])) {
+			if (zombies[j].alive && bullet.overlaps(zombies[j])) {//.hit_box
 				System.out.println("overlap");
 				zombies[j].takesHitFor(20);
 			}
@@ -103,8 +106,8 @@ public class Game extends GameApplet {
 			// ){
 			if (zombies[i].alive) {
 				if(!zombies[i].within(90, brawler)) {
-					 zombies[i].turnToward(brawler);
-					 zombies[i].chase(brawler);
+					 //zombies[i].turnToward(brawler);
+					 //zombies[i].chase(brawler);
 					//zombies[i].launch(zbullet);	
 				}
 			}
@@ -130,9 +133,11 @@ public class Game extends GameApplet {
 
 	public void setZombieBehavior(Zombie bossZombie) {
 		if (bossZombie.alive) {
-			bossZombie.turnToward(brawler);
-			bossZombie.chase(brawler);
-			//bossZombie.launch(bzbullet);
+			if(!bossZombie.within(90, brawler)) {
+				bossZombie.turnToward(brawler);
+				bossZombie.chase(brawler);
+				//bossZombie.launch(bzbullet);
+			}
 		}
 		for (int j = 0; j < l.length; j++) {
 			if (bossZombie.overlaps(l[j])) {
@@ -227,8 +232,11 @@ public class Game extends GameApplet {
 	}
 
 	public void paint(Graphics g) {
-		// System.out.println("x: " + getBrawlerX() + ", y: " + brawler.y);
+		//System.out.println("x: " + getBrawlerX() + ", y: " + brawler.y);
 		map.draw(g);
+		
+		//kungfuman.draw(g);
+		//soldier.draw(g);
 
 		if (brawler.alive) {
 			brawler.draw(g);
