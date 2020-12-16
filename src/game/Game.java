@@ -9,7 +9,8 @@ public class Game extends GameApplet {
 	public static final int s = 64;
 
 	Line[] l = new Line[3];
-	TileMap map = new TileMap("st", "st_map.map", s);// 64x12
+	//TileMap map = new TileMap("st", "st_map.map", s);// 64x12
+	TileMap map = new TileMap("ssb", "ssb_map.map", s);// 64x12
 	Random rnd = new Random(System.currentTimeMillis());
 
 	int setLen = 3;

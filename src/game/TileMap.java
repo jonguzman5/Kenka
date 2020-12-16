@@ -23,7 +23,7 @@ public class TileMap {
 
 	public TileMap(String img_dir, String filename, int scale) {
 		populateUnicodes();
-		//for(int i = 0; i < unicodes.length; i++)	System.out.println(i + ": " + unicodes[i]);
+		for(int i = 0; i < unicodes.length; i++)	System.out.println(i + ": " + unicodes[i]);
 		loadMap(filename);
 		loadAssets(img_dir);
 		s = scale;
@@ -75,28 +75,77 @@ public class TileMap {
 		int top = b.y;
 		int left = b.x;
 		int right = b.x + s - 1;// -1 bc 17 sqr
-		return (valueAt((top - s / 4), left) == '³') && (valueAt((top - s / 4), right) == '³');
+		return
+				(
+				valueAt((top - s / 4), left) == '³' || //s-ground
+				valueAt((top - s / 4), left) == 'Ä' ||//ssb-ground
+				valueAt((top - s / 4), left) == 'Æ' ||//ssb-corner-shadow				
+				valueAt((top - s / 4), left) == '±' //ssb-wall-shadow
+				) 
+				&& 
+				(
+				valueAt((top - s / 4), right) == '³' ||//s-ground
+				valueAt((top - s / 4), right) == 'Ä' ||//ssb-ground
+				valueAt((top - s / 4), right) == 'Æ' ||//ssb-corner-shadow
+				valueAt((top - s / 4), right) == '±' //ssb-wall-shadow
+				);
 	}
 
 	public boolean clearBelow(Brawler b) {
 		int bottom = b.y + s - 1;// s||b.h
 		int left = b.x;
 		int right = b.x + s - 1;// -1 bc 17 sqr
-		return (valueAt(bottom + b.vy + 1, left) == '³') && (valueAt((bottom + b.vy + 1), right) == '³');
+		return (
+				valueAt(bottom + b.vy + 1, left) == '³' ||
+				valueAt(bottom + b.vy + 1, left) == 'Ä' ||
+				valueAt(bottom + b.vy + 1, left) == 'Æ' ||
+				valueAt(bottom + b.vy + 1, left) == '±' 
+				) 
+				&& 
+				(
+				valueAt((bottom + b.vy + 1), right) == '³' ||
+				valueAt((bottom + b.vy + 1), right) == 'Ä' ||
+				valueAt((bottom + b.vy + 1), right) == 'Æ' ||
+				valueAt((bottom + b.vy + 1), right) == '±'
+				);
 	}
 
 	public boolean clearLeftOf(Brawler b) {
 		int top = b.y;
 		int bottom = b.y + s - 1;
 		int left = b.x;
-		return (valueAt(top, (left - s / 8)) == '³') && (valueAt(bottom, (left - s / 8)) == '³');
+		return (
+				valueAt(top, (left - s / 8)) == '³' ||
+				valueAt(top, (left - s / 8)) == 'Ä' ||
+				valueAt(top, (left - s / 8)) == 'Æ' ||
+				valueAt(top, (left - s / 8)) == '±' 
+				) 
+				&& 
+				(
+				valueAt(bottom, (left - s / 8)) == '³' ||
+				valueAt(bottom, (left - s / 8)) == 'Ä' ||
+				valueAt(bottom, (left - s / 8)) == 'Æ' ||
+				valueAt(bottom, (left - s / 8)) == '±'
+				);
 	}
 
 	public boolean clearRightOf(Brawler b) {
 		int top = b.y;
 		int bottom = b.y + s - 1;
 		int right = b.x + s - 1;
-		return (valueAt(top, (right + s / 8)) == '³') && (valueAt(bottom, (right + s / 8)) == '³');
+		return (
+				valueAt(top, (right + s / 8)) == '³' ||
+				valueAt(top, (right + s / 8)) == 'Ä' ||
+				valueAt(top, (right + s / 8)) == 'Æ' ||
+				valueAt(top, (right + s / 8)) == '±' 
+				) 
+				&& 
+				(
+				valueAt(bottom, (right + s / 8)) == '³' ||
+				valueAt(bottom, (right + s / 8)) == 'Ä' ||
+				valueAt(bottom, (right + s / 8)) == 'Æ' ||
+				valueAt(bottom, (right + s / 8)) == '±' 
+				);
 	}
 
 	// ----------------------------------Zombie--------------------------------------//

@@ -54,9 +54,7 @@ public class GameApplet extends Applet implements Runnable, KeyListener, MouseLi
 		}
 	}	
 	
-	public void inGameLoop() {
-		
-	}
+	public void inGameLoop() {}
 	
 	@Override public void mouseMoved(MouseEvent e) {}	
 	@Override public void mouseDragged(MouseEvent e) {}
