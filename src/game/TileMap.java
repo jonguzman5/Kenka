@@ -80,10 +80,16 @@ public class TileMap {
 				valueAt((top - s / 4), left) == '³' ||//s-ground
 				valueAt((top - s / 4), left) == '¬' ||//s-corner-shadow				
 				valueAt((top - s / 4), left) == 'q' ||//s-wall-shadow
+				valueAt((top - s / 4), left) == '#' ||				
 				
 				valueAt((top - s / 4), left) == 'Ä' ||//ssb-ground
 				valueAt((top - s / 4), left) == 'Æ' ||//ssb-corner-shadow				
-				valueAt((top - s / 4), left) == '±' //ssb-wall-shadow
+				valueAt((top - s / 4), left) == '±' ||//ssb-wall-shadow
+				
+				valueAt((top - s / 4), left) == '#' ||//mb-ground
+				valueAt((top - s / 4), left) == '=' ||//mb-ground
+				valueAt((top - s / 4), left) == '$' ||//mb-corner-shadow
+				valueAt((top - s / 4), left) == '9' //||//mb-wall-shadow
 				) 
 				&& 
 				(
@@ -93,7 +99,12 @@ public class TileMap {
 						
 				valueAt((top - s / 4), right) == 'Ä' ||//ssb-ground
 				valueAt((top - s / 4), right) == 'Æ' ||//ssb-corner-shadow
-				valueAt((top - s / 4), right) == '±' //ssb-wall-shadow
+				valueAt((top - s / 4), right) == '±' ||//ssb-wall-shadow
+				
+				valueAt((top - s / 4), right) == '#' ||//mb-ground
+				valueAt((top - s / 4), right) == '=' ||//mb-ground				
+				valueAt((top - s / 4), right) == '$' ||//mb-corner-shadow
+				valueAt((top - s / 4), right) == '9' //||//mb-wall-shadow
 				);
 	}
 
@@ -108,7 +119,12 @@ public class TileMap {
 				
 				valueAt(bottom + b.vy + 1, left) == 'Ä' ||
 				valueAt(bottom + b.vy + 1, left) == 'Æ' ||
-				valueAt(bottom + b.vy + 1, left) == '±' 
+				valueAt(bottom + b.vy + 1, left) == '±' ||
+				
+				valueAt(bottom + b.vy + 1, left) == '#' ||
+				valueAt(bottom + b.vy + 1, left) == '=' ||				
+				valueAt(bottom + b.vy + 1, left) == '$' ||
+				valueAt(bottom + b.vy + 1, left) == '9' 
 				) 
 				&& 
 				(
@@ -119,7 +135,12 @@ public class TileMap {
 				
 				valueAt((bottom + b.vy + 1), right) == 'Ä' ||
 				valueAt((bottom + b.vy + 1), right) == 'Æ' ||
-				valueAt((bottom + b.vy + 1), right) == '±'
+				valueAt((bottom + b.vy + 1), right) == '±' ||
+				
+				valueAt((bottom + b.vy + 1), right) == '#' ||
+				valueAt((bottom + b.vy + 1), right) == '=' ||
+				valueAt((bottom + b.vy + 1), right) == '$' ||
+				valueAt((bottom + b.vy + 1), right) == '9' 
 				);
 	}
 
@@ -134,7 +155,12 @@ public class TileMap {
 				
 				valueAt(top, (left - s / 8)) == 'Ä' ||
 				valueAt(top, (left - s / 8)) == 'Æ' ||
-				valueAt(top, (left - s / 8)) == '±' 
+				valueAt(top, (left - s / 8)) == '±' ||
+				
+				valueAt(top, (left - s / 8)) == '#' ||
+				valueAt(top, (left - s / 8)) == '=' ||
+				valueAt(top, (left - s / 8)) == '$' ||
+				valueAt(top, (left - s / 8)) == '9' 
 				) 
 				&& 
 				(
@@ -144,7 +170,12 @@ public class TileMap {
 				
 				valueAt(bottom, (left - s / 8)) == 'Ä' ||
 				valueAt(bottom, (left - s / 8)) == 'Æ' ||
-				valueAt(bottom, (left - s / 8)) == '±'
+				valueAt(bottom, (left - s / 8)) == '±' ||
+				
+				valueAt(bottom, (left - s / 8)) == '#' ||
+				valueAt(bottom, (left - s / 8)) == '=' ||
+				valueAt(bottom, (left - s / 8)) == '$' ||
+				valueAt(bottom, (left - s / 8)) == '9' 
 				);
 	}
 
@@ -159,7 +190,12 @@ public class TileMap {
 				
 				valueAt(top, (right + s / 8)) == 'Ä' ||
 				valueAt(top, (right + s / 8)) == 'Æ' ||
-				valueAt(top, (right + s / 8)) == '±' 
+				valueAt(top, (right + s / 8)) == '±' ||
+				
+				valueAt(top, (right + s / 8)) == '#' ||
+				valueAt(top, (right + s / 8)) == '=' ||
+				valueAt(top, (right + s / 8)) == '$' ||
+				valueAt(top, (right + s / 8)) == '9' 
 				) 
 				&& 
 				(
@@ -169,7 +205,12 @@ public class TileMap {
 				
 				valueAt(bottom, (right + s / 8)) == 'Ä' ||
 				valueAt(bottom, (right + s / 8)) == 'Æ' ||
-				valueAt(bottom, (right + s / 8)) == '±' 
+				valueAt(bottom, (right + s / 8)) == '±' ||
+				
+				valueAt(bottom, (right + s / 8)) == '#' ||
+				valueAt(bottom, (right + s / 8)) == '=' ||
+				valueAt(bottom, (right + s / 8)) == '$' ||
+				valueAt(bottom, (right + s / 8)) == '9' 
 				);
 	}
 
