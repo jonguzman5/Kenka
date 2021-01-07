@@ -35,18 +35,13 @@ public class Circle {
 	public void launch(Circle[] bullet) {
 		if(launch_delay == 0) {
 			//vel
-			double speed = 10;					
+			double speed = 5;					
 			bullet[bulletNum].vx = speed * cosA;
 			bullet[bulletNum].vy = speed * sinA;
 			//starting pt
 			bullet[bulletNum].x = x + (r+6) * cosA;
-			bullet[bulletNum].y = y + (r+6) * sinA;
+			bullet[bulletNum].y = y + (r+6) * sinA; 	
 			
-			//if(bullet[bulletNum].x >= 500 || bullet[bulletNum].y >= 500) {
-				//bullet[bulletNum].vx = 0;
-				//bullet[bulletNum].vy = 0;
-			//}
-
 			launch_delay = launch_countdown;
 			
 			bulletNum++;
@@ -54,6 +49,19 @@ public class Circle {
 				bulletNum = 0;
 		}
 		launch_delay--;
+	}
+	
+	public boolean withinPunchRange(double x, double y) {
+		boolean withinPunchRange = true;
+		if(
+			(x >= 100 && y <= 500) ||
+			(x >= 100 && x <= 500) 
+			//(startx <= x || starty <= y) ||
+			//(startx <= x || starty <= y) 
+		){
+			withinPunchRange = false;
+		}
+		return withinPunchRange;
 	}
 	
 	public boolean toLeftOf(Circle c) {
@@ -148,13 +156,8 @@ public class Circle {
 		return d*d < r*r;
 	}
 	
-	public boolean overlaps(Zombie z) {
-		double d = z.distanceTo(x, y);
-		return d*d < r*r;
-	}
-	
-	public boolean overlaps(Brawler b) {
-		double d = b.distanceTo(x, y);
+	public boolean overlaps(Character c) {
+		double d = c.distanceTo(x, y);
 		return d*d < r*r;
 	}
 	

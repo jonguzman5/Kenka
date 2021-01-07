@@ -46,8 +46,7 @@ public class Sprite {
 			gun.setAngle(0);
 		gun.x = x;
 		gun.y = y+20;
-		//gun.x = x - Camera.x + Camera.x_origin;
-		//gun.y = y - Camera.y + Camera.y_origin + 20;
+		
 		
 		gun.launch(bullet);
 	}
@@ -81,6 +80,18 @@ public class Sprite {
 			g.drawImage(animation[action].getCurrentImage(), x - Camera.x + Camera.x_origin, y - Camera.y + Camera.y_origin, 30, 60, null);		
 		else
 			g.drawImage(animation[action].getStillImage(), x - Camera.x + Camera.x_origin, y - Camera.y + Camera.y_origin, 30, 60, null);
+		moving = false;
+	}
+	
+	public void drawBoss(Graphics g) {
+		if (moving) {
+			g.drawImage(animation[action].getCurrentImage(), x - Camera.x + Camera.x_origin, y - Camera.y + Camera.y_origin, 60, 120, null);
+			//g.drawOval((int)(x - r) - Camera.x + Camera.x_origin + 30, (int)(y - r) - Camera.y + Camera.y_origin + 60, (int)r * 2, (int)r * 2);
+		}
+		else {
+			g.drawImage(animation[action].getStillImage(), x - Camera.x + Camera.x_origin, y - Camera.y + Camera.y_origin, 60, 120, null);
+			//g.drawOval((int)(x - r) - Camera.x + Camera.x_origin + 30, (int)(y - r) - Camera.y + Camera.y_origin + 60, (int)r * 2, (int)r * 2);
+		}
 		moving = false;
 	}
 

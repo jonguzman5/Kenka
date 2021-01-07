@@ -23,7 +23,7 @@ public class TileMap {
 
 	public TileMap(String img_dir, String filename, int scale) {
 		populateUnicodes();
-		for(int i = 0; i < unicodes.length; i++)	System.out.println(i + ": " + unicodes[i]);
+		//for(int i = 0; i < unicodes.length; i++)	System.out.println(i + ": " + unicodes[i]);
 		loadMap(filename);
 		loadAssets(img_dir);
 		s = scale;

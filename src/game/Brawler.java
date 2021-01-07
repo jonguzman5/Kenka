@@ -3,12 +3,6 @@ package game;
 import java.awt.Graphics;
 
 public class Brawler extends Character {
-	boolean alive = true;
-	int r;
-	int a;
-	
-	double cosA;
-	double sinA;
 	
 	public static final String[] pose = {
 			"b/b_up",
@@ -17,29 +11,8 @@ public class Brawler extends Character {
 			"b/b_rt"
 	};
 
-	public Brawler(int hit_points, int x, int y, int action, int r, int a) {
+	public Brawler(int hit_points, int x, int y, int action) {
 		super(hit_points, x - Camera.x + Camera.x_origin, y - Camera.y + Camera.y_origin, action, pose, 10, 4, "png");
-		this.r = r;
-		this.a = a;
-		cosA = Lookup.cos[a];
-		sinA = Lookup.sin[a];
-	}
-	
-	public double distanceTo(double x, double y) {
-		double dx = x - this.x;
-		double dy = y - this.y;
-		return Math.sqrt((dx* dx) + (dy * dy));
-	}
-	
-	public boolean overlaps(Line l) {
-		int d = (int) l.distanceTo(x, y);
-		return d*d < r*r;
 	}
 
-	public void isPushedBackBy(Line l) {
-		int d = (int) l.distanceTo(x, y);
-		int p = r - d;
-		x += p * l.nx;
-		y += p * l.ny;
-	}
 }

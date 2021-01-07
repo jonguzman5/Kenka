@@ -1,12 +1,6 @@
 package game;
 
-public class Soldier extends Character {
-	boolean alive = true;
-	int r;
-	int a;
-	
-	double cosA;
-	double sinA;
+public class Soldier extends Enemy {
 	
 	public static final String[] pose = {
 			"s/s_up",
@@ -15,11 +9,7 @@ public class Soldier extends Character {
 			"s/s_rt"
 	};
 
-	public Soldier(int hit_points, int x, int y, int action, int r, int a) {
+	public Soldier(int hit_points, int x, int y, int action) {
 		super(hit_points, x, y, action, pose, 10, 4, "png");
-		this.r = r;
-		this.a = a;
-		cosA = Lookup.cos[a];
-		sinA = Lookup.sin[a];
 	}
 }

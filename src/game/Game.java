@@ -6,49 +6,56 @@ import java.applet.*;
 import java.util.*;
 
 public class Game extends GameApplet {
-	public static final int s = 64;
-
-	Line[] l = new Line[3];
-	//TileMap map = new TileMap("st", "st.map", s);// 64x12
-	//TileMap map = new TileMap("ssb", "ssb.map", s);// 64x12
-	TileMap map = new TileMap("mb", "mb.map", s);// 64x12
+	// ----------------------------------Utilities--------------------------------------//
 	Random rnd = new Random(System.currentTimeMillis());
-
-	int setLen = 3;
-	int setAm = 3;
-
-	Brawler brawler = new Brawler(100, 0, 0, Brawler.RIGHT, 23, 0);// 23 = char img w
-	Zombie[] zombieSet1 = new Zombie[setLen];
-	Zombie[] zombieSet2 = new Zombie[setLen];
-	Zombie[] zombieSet3 = new Zombie[setLen];
-	Zombie bossZombie = new Zombie(200, 3300, 495, Zombie.LEFT, 46, 0);
-	
-	//KungFuMan kungfuman = new KungFuMan(100, 100, 495, KungFuMan.LEFT, 23, 0);
-	//Soldier soldier = new Soldier(100, 100, 495, Soldier.LEFT, 23, 0);
-	
+	public static final int s = 64;
+	private static int lvl = 0;
+	Line[] l = new Line[3];
+	// ----------------------------------Map--------------------------------------//
+	TileMap lvl1 = new TileMap("st", "st.map", s);// 64x12
+	TileMap lvl2 = new TileMap("ssb", "ssb.map", s);// 64x12
+	TileMap lvl3 = new TileMap("mb", "mb.map", s);// 64x12
+	TileMap[] lvls = { lvl1, lvl2, lvl3 };
+	TileMap map = lvls[lvl];
+	// ----------------------------------Brawler--------------------------------------//
+	Brawler brawler = new Brawler(100, 0, 0, Brawler.RIGHT);
 	HealthBar bhb = new HealthBar(brawler, 0, 0, 100, 25);
-	HealthBar[] zhb1 = new HealthBar[setLen * setAm];
-	HealthBar[] zhb2 = new HealthBar[setLen * setAm];
-	HealthBar[] zhb3 = new HealthBar[setLen * setAm];
-	HealthBar bzhb = new HealthBar(bossZombie, 520, 243, 200, 25);
-
 	Circle[] bullet = new Circle[40];
-	Circle[] zbullet = new Circle[2];
-	Circle[] bzbullet = new Circle[10];
+	// ----------------------------------Enemies--------------------------------------//
+	Enemies enemies = new Enemies();
+	Circle[] ebullet = new Circle[2];
+	Circle[] bossbullet = new Circle[10];
+	Enemy[][] enemySets = enemies.enemySets[lvl];
+	HealthBar[][] enemyHealthBars = enemies.enemyHealthBars[lvl];
+	Enemy boss = enemies.bosses[lvl];
+	HealthBar bossHealthBars = enemies.bossHealthBars[lvl];
+
+	// ----------------------------------Configuration--------------------------------------//
+	public void changeLevel() {
+		if (lvl < lvls.length-1) {
+			lvl++;
+			map = lvls[lvl];
+			brawler.x = 0;
+			enemySets = enemies.enemySets[lvl];
+			//enemyHealthBars = enemies.enemyHealthBars[lvl];
+			boss = enemies.bosses[lvl];
+			//bossHealthBars = enemies.bossHealthBars[lvl];
+		}
+	}
 
 	public void init() {
 		Camera.x = Camera.x_origin;
 		Camera.y = Camera.y_origin;
 
 		setBulletPosition(bullet);
-		setBulletPosition(zbullet);
-		setBulletPosition(bzbullet);
+		setBulletPosition(ebullet);
+		setBulletPosition(bossbullet);
 
-		setZombiePosition(getBrawlerX() + 40, 0, zombieSet1, zhb1);
-		setZombiePosition(getBrawlerX() + 40, 81, zombieSet2, zhb2);
-		setZombiePosition(getBrawlerX() + 40, 162, zombieSet3, zhb3);
+		setEnemyPosition(getBrawlerX() + 40, 0, enemySets[0], enemyHealthBars[0]);
+		setEnemyPosition(getBrawlerX() + 40, 81, enemySets[1], enemyHealthBars[1]);
+		setEnemyPosition(getBrawlerX() + 40, 162, enemySets[2], enemyHealthBars[2]);
 
-		double[][] v = {
+		double[][] v = { 
 				{ 4096, 720, 0, 720 }, // bottom
 				{ 4096, 0, 4096, 720 }, // right
 				{ 0, 720, 0, 0 },// left
@@ -68,27 +75,26 @@ public class Game extends GameApplet {
 		}
 	}
 
-	public void setZombiePosition(int x, int hby, Zombie[] zombies, HealthBar[]healthbar) {
-		for (int i = 0; i < zombies.length; i++) {
-			zombies[i] = new Zombie(100, x, rnd.nextInt(480) + 360, Zombie.DOWN, 23, 0);
-			healthbar[i] = new HealthBar(zombies[i], 620, hby, 100, 25);
+	public void setEnemyPosition(int x, int hby, Enemy[] enemies, HealthBar[] healthbar) {
+		for (int i = 0; i < enemies.length; i++) {
+			//enemies[i] = new Enemy(100, x, rnd.nextInt(480) + 360, Zombie.DOWN, Zombie.pose, 10, 4, "png");
+			healthbar[i] = new HealthBar(enemies[i], 620, hby, 100, 25);
 			hby += 27;
 		}
 	}
 
-	// ----------------------------------Brawler=>Zombie--------------------------------------//
+	// ----------------------------------Brawler=>Enemy--------------------------------------//
 
-	public void setBulletBehavior(Zombie[] zombies, Circle bullet) {
-		for (int j = 0; j < zombies.length; j++)
-			if (zombies[j].alive && bullet.overlaps(zombies[j])) {//.hit_box
-				System.out.println("overlap");
-				zombies[j].takesHitFor(20);
+	public void setBulletBehavior(Enemy[] enemies, Circle bullet) {
+		for (int j = 0; j < enemies.length; j++)
+			if (enemies[j].alive && bullet.overlaps(enemies[j])) {
+				enemies[j].takesHitFor(20);
 			}
 	}
 
-	public void setBulletBehavior(Zombie bossZombie, Circle bullet) {
-		if (bossZombie.alive && bullet.overlaps(bossZombie))
-			bossZombie.takesHitFor(10);
+	public void setBulletBehavior(Enemy boss, Circle bullet) {
+		if (boss.alive && bullet.overlaps(boss))
+			boss.takesHitFor(10);
 	}
 
 	// ----------------------------------Zombie=>Brawler--------------------------------------//
@@ -97,83 +103,83 @@ public class Game extends GameApplet {
 		if (bullet.overlaps(brawler))
 			brawler.takesHitFor(1);
 	}
-	
-	public void setZombieBehavior(Zombie[] zombies) {
-		for (int i = 0; i < zombies.length; i++) {
+
+	public void setEnemyBehavior(Enemy[] enemies) {
+		for (int i = 0; i < enemies.length; i++) {
 			// if(
-			// (map.clearAbove(zombies[i])) &&
-			// (map.clearBelow(zombies[i])) &&
-			// (map.clearLeftOf(zombies[i])) &&
-			// (map.clearRightOf(zombies[i]))
+			// (map.clearAbove(enemies[i])) &&
+			// (map.clearBelow(enemies[i])) &&
+			// (map.clearLeftOf(enemies[i])) &&
+			// (map.clearRightOf(enemies[i]))
 			// ){
-			if (zombies[i].alive) {
-				if(!zombies[i].within(90, brawler)) {
-					 //zombies[i].turnToward(brawler);
-					 //zombies[i].chase(brawler);
-					//zombies[i].launch(zbullet);	
+			if (enemies[i].alive) {
+				if (!enemies[i].within(90, brawler)) {
+					 enemies[i].turnToward(brawler);
+					 enemies[i].chase(brawler);
+					 enemies[i].launch(ebullet);
 				}
 			}
 			// }
 		}
 
-		for (int i = 0; i < zombies.length - 1; i++) {
-			for (int j = i + 1; j < zombies.length; j++) {
-				if (zombies[i].overlaps(zombies[j])) {
-					zombies[i].pushes(zombies[j]);
+		for (int i = 0; i < enemies.length - 1; i++) {
+			for (int j = i + 1; j < enemies.length; j++) {
+				if (enemies[i].overlaps(enemies[j])) {
+					enemies[i].pushes(enemies[j]);
 				}
 			}
 		}
 
-		for (int i = 0; i < zombies.length; i++) {
+		for (int i = 0; i < enemies.length; i++) {
 			for (int j = 0; j < l.length; j++) {
-				if (zombies[i].overlaps(l[j])) {
-					zombies[i].isPushedBackBy(l[j]);
+				if (enemies[i].overlaps(l[j])) {
+					enemies[i].isPushedBackBy(l[j]);
 				}
 			}
 		}
 	}
 
-	public void setZombieBehavior(Zombie bossZombie) {
-		if (bossZombie.alive) {
-			if(!bossZombie.within(90, brawler)) {
-				bossZombie.turnToward(brawler);
-				bossZombie.chase(brawler);
-				//bossZombie.launch(bzbullet);
+	public void setEnemyBehavior(Enemy boss) {
+		if (boss.alive) {
+			if (!boss.within(90, brawler)) {
+				boss.turnToward(brawler);
+				boss.chase(brawler);
+				// bossZombie.launch(bossbullet);
 			}
 		}
 		for (int j = 0; j < l.length; j++) {
-			if (bossZombie.overlaps(l[j])) {
-				bossZombie.isPushedBackBy(l[j]);
+			if (boss.overlaps(l[j])) {
+				boss.isPushedBackBy(l[j]);
 			}
 		}
 	}
 
 	public void inGameLoop() {
 		// ----------------------------------Bullet--------------------------------------//
-		// -----------------Brawler=>Zombie-----------------//
+		// -----------------Brawler=>Enemy-----------------//
 		for (int i = 0; i < bullet.length; i++) {
 			bullet[i].move();
-			setBulletBehavior(zombieSet1, bullet[i]);
-			setBulletBehavior(zombieSet2, bullet[i]);
-			setBulletBehavior(zombieSet3, bullet[i]);
-			setBulletBehavior(bossZombie, bullet[i]);
+			setBulletBehavior(enemySets[0], bullet[i]);
+			setBulletBehavior(enemySets[1], bullet[i]);
+			setBulletBehavior(enemySets[2], bullet[i]);
+//			setBulletBehavior(boss, bullet[i]);
 		}
 
-		// -----------------Zombie=>Brawler-----------------//
-		for (int i = 0; i < zbullet.length; i++) {
-			zbullet[i].move();
-			setBulletBehavior(brawler, zbullet[i]);
+		// -----------------Enemy=>Brawler-----------------//
+		for (int i = 0; i < ebullet.length; i++) {
+			ebullet[i].move();
+			setBulletBehavior(brawler, ebullet[i]);
 		}
 
-		for (int i = 0; i < bzbullet.length; i++) {
-			bzbullet[i].move();
-			setBulletBehavior(brawler, bzbullet[i]);
+		for (int i = 0; i < bossbullet.length; i++) {
+			bossbullet[i].move();
+			setBulletBehavior(brawler, bossbullet[i]);
 		}
-		// ----------------------------------Zombie--------------------------------------//
-		setZombieBehavior(zombieSet1);
-		setZombieBehavior(zombieSet2);
-		setZombieBehavior(zombieSet3);
-		setZombieBehavior(bossZombie);
+		// ----------------------------------Enemy--------------------------------------//
+		setEnemyBehavior(enemySets[0]);
+		setEnemyBehavior(enemySets[1]);
+		setEnemyBehavior(enemySets[2]);
+		setEnemyBehavior(boss);
 		// ----------------------------------Brawler--------------------------------------//
 		if (pressing[UP]) {
 			if (map.clearAbove(brawler)) {
@@ -214,31 +220,28 @@ public class Game extends GameApplet {
 		return brawler.x;
 	}
 
-	public void renderZombies(int x, Zombie[] zombies, HealthBar[] healthbar, Graphics g) {
+	public void renderEnemies(int x, Enemy[] enemies, HealthBar[] healthbar, Graphics g) {
 		if (getBrawlerX() >= x)
-			for (int i = 0; i < zombies.length; i++) {
-				if(zombies[i].alive) {
-					zombies[i].draw(g);
+			for (int i = 0; i < enemies.length; i++) {
+				if (enemies[i].alive) {
+					enemies[i].draw(g);
 					healthbar[i].draw(g);
 				}
 			}
 	}
 
-	public void renderZombies(int x, Zombie bossZombie, HealthBar healthbar, Graphics g) {
+	public void renderEnemies(int x, Enemy enemyBoss, HealthBar healthbar, Graphics g) {
 		if (getBrawlerX() >= x) {
-			if (bossZombie.alive) {
-				bossZombie.drawBossZombie(g);
+			if (enemyBoss.alive) {
+				enemyBoss.drawBoss(g);
 				healthbar.draw(g);
 			}
 		}
 	}
 
 	public void paint(Graphics g) {
-		//System.out.println("x: " + getBrawlerX() + ", y: " + brawler.y);
+		// System.out.println("x: " + getBrawlerX() + ", y: " + brawler.y);
 		map.draw(g);
-		
-		//kungfuman.draw(g);
-		//soldier.draw(g);
 
 		if (brawler.alive) {
 			brawler.draw(g);
@@ -246,23 +249,31 @@ public class Game extends GameApplet {
 		}
 		// Camera.draw(g);
 
-		renderZombies(0, zombieSet1, zhb1, g);
-		renderZombies(970, zombieSet2, zhb2, g);
-		renderZombies(1940, zombieSet3, zhb3, g);
-		renderZombies(2540, bossZombie, bzhb, g);
+		renderEnemies(0, enemySets[0], enemyHealthBars[0], g);
+		renderEnemies(620, enemySets[1], enemyHealthBars[1], g);
+		renderEnemies(1580, enemySets[2], enemyHealthBars[2], g);
+		renderEnemies(2540, boss, bossHealthBars, g);
 
 		for (int i = 0; i < bullet.length; i++) {
+			// System.out.println("x: " + bullet[i].x + ", y:" + bullet[i].y);
+			// if(bullet[i].withinPunchRange(bullet[i].x, bullet[i].y))
 			bullet[i].draw(g);
+
 		}
-		for (int i = 0; i < zbullet.length; i++) {
-			zbullet[i].draw(g);
+		for (int i = 0; i < ebullet.length; i++) {
+			ebullet[i].draw(g);
 		}
-		for (int i = 0; i < bzbullet.length; i++) {
-			bzbullet[i].draw(g);
+		for (int i = 0; i < bossbullet.length; i++) {
+			bossbullet[i].draw(g);
 		}
-		// for(int i = 0; i < l.length; i++) {
-		// l[i].draw(g);
-		// }
+
+		if (brawler.x == 700) {
+			changeLevel();
+		}
+
+		if (brawler.y == 640) {
+			changeLevel();
+		}
 	}
 
 }
