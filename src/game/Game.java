@@ -38,6 +38,9 @@ public class Game extends GameApplet {
 			brawler.x = 0;
 			enemySets = enemies.enemySets[lvl];
 			//enemyHealthBars = enemies.enemyHealthBars[lvl];
+			setEnemyPosition(getBrawlerX() + 40, 0, enemySets[0], enemyHealthBars[0]);
+			setEnemyPosition(getBrawlerX() + 40, 81, enemySets[1], enemyHealthBars[1]);
+			setEnemyPosition(getBrawlerX() + 40, 162, enemySets[2], enemyHealthBars[2]);
 			boss = enemies.bosses[lvl];
 			//bossHealthBars = enemies.bossHealthBars[lvl];
 		}
@@ -86,10 +89,14 @@ public class Game extends GameApplet {
 	// ----------------------------------Brawler=>Enemy--------------------------------------//
 
 	public void setBulletBehavior(Enemy[] enemies, Circle bullet) {
-		for (int j = 0; j < enemies.length; j++)
-			if (enemies[j].alive && bullet.overlaps(enemies[j])) {
-				enemies[j].takesHitFor(20);
-			}
+		for (int j = 0; j < enemies.length; j++) {
+			//System.out.println(bullet.x);
+			//if(bullet.x < 300 || bullet.y < 300) {
+				if (enemies[j].alive && bullet.overlaps(enemies[j])) {
+					enemies[j].takesHitFor(20);
+				}	
+			//}
+		}
 	}
 
 	public void setBulletBehavior(Enemy boss, Circle bullet) {
@@ -255,10 +262,17 @@ public class Game extends GameApplet {
 		renderEnemies(2540, boss, bossHealthBars, g);
 
 		for (int i = 0; i < bullet.length; i++) {
-			// System.out.println("x: " + bullet[i].x + ", y:" + bullet[i].y);
-			// if(bullet[i].withinPunchRange(bullet[i].x, bullet[i].y))
-			bullet[i].draw(g);
-
+			//if(bullet[i].x != -1000.0 && bullet[i].y != -1000.0)
+				//System.out.println("x: " + bullet[i].x + ", y:" + bullet[i].y);
+			if(
+				bullet[i].x < brawler.x + 100 &&
+				bullet[i].y > brawler.y - 100 &&
+				bullet[i].x > brawler.x - 100 &&
+				bullet[i].y < brawler.y + 100
+			){ 
+				
+				bullet[i].draw(g);
+			}
 		}
 		for (int i = 0; i < ebullet.length; i++) {
 			ebullet[i].draw(g);

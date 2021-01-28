@@ -2,6 +2,8 @@ package game;
 
 import java.util.Random;
 
+import org.omg.CORBA.Any;
+
 public class Enemies {
 	int setLen = 3;
 	int setAm = 3;
@@ -36,7 +38,7 @@ public class Enemies {
 	}
 	
 	//----------------------------------Zombie--------------------------------------//
-	
+	Zombie z = new Zombie(200, Zombie.LEFT, 46, 0);
 	Zombie[] zombieSet1 = populateZombieArr();
 	Zombie[] zombieSet2 = populateZombieArr();
 	Zombie[] zombieSet3 = populateZombieArr();
@@ -61,6 +63,7 @@ public class Enemies {
 	KungFuMan[][] kungfumanSet = {kungfumanSet1, kungfumanSet2, kungfumanSet3};
 	KungFuMan bossKungfuman = new KungFuMan(200, 3300, 495, KungFuMan.LEFT);
 	
+	//NEED POPULATEHEALTHBAR METHOD
 	HealthBar[] khb1 = new HealthBar[setLen * setAm];
 	HealthBar[] khb2 = new HealthBar[setLen * setAm];
 	HealthBar[] khb3 = new HealthBar[setLen * setAm];

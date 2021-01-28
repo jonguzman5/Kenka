@@ -40,7 +40,11 @@ public class Circle {
 			bullet[bulletNum].vy = speed * sinA;
 			//starting pt
 			bullet[bulletNum].x = x + (r+6) * cosA;
-			bullet[bulletNum].y = y + (r+6) * sinA; 	
+			bullet[bulletNum].y = y + (r+6) * sinA;
+			
+			//System.out.println("x: " + x + " y: " + y);
+			//System.out.println("bx: " + bullet[bulletNum].x + " by: " + bullet[bulletNum].y);
+			//System.out.println("vx: " + bullet[bulletNum].vx + " vy: " + bullet[bulletNum].vy);
 			
 			launch_delay = launch_countdown;
 			
@@ -51,35 +55,24 @@ public class Circle {
 		launch_delay--;
 	}
 	
-	public boolean withinPunchRange(double x, double y) {
-		boolean withinPunchRange = true;
-		if(
-			(x >= 100 && y <= 500) ||
-			(x >= 100 && x <= 500) 
-			//(startx <= x || starty <= y) ||
-			//(startx <= x || starty <= y) 
-		){
-			withinPunchRange = false;
-		}
-		return withinPunchRange;
-	}
-	
 	public boolean toLeftOf(Circle c) {
 		return sinA * (c.x - x) - cosA * (c.y - y) > 0;
 	}
 	
+/*	
 	public boolean toLeftOf(Brawler b) {
 		return sinA * (b.x - x) - cosA * (b.y - y) > 0;
 	}
+*/	
 	
 	public boolean inFrontOf(Circle c) {
 		return cosA * (c.x - x) + sinA * (c.y - y) > 0;
 	}
 	
-	public boolean within(double distance, Circle c) {
+	public boolean within(double d, Circle c) {
 		double dx = x - c.x;
 		double dy = y - c.y;
-		return dx * dx + dy * dy < distance * distance;
+		return dx * dx + dy * dy < d * d;
 	}
 	
 	public void draw(Graphics g) {
@@ -120,6 +113,8 @@ public class Circle {
 		setVelocity(vx, vy);
 	}	
 	public void goForward(double d) {
+		//System.out.println("@circle: cosA: " + cosA);
+		//System.out.println("@circle: sinA: " + sinA);
 		double dx = d * cosA;
 		double dy = d * sinA;
 		moveBy(dx, dy);
@@ -191,6 +186,27 @@ public class Circle {
 		c.y -= uy * p/2;						
 	}
 	
+	public void pushes(Character c) {
+		//pushes(c.feet);
+/*		
+		double dx = x - c.feet.x;
+		double dy = y - c.feet.y;
+		double d = Math.sqrt(dx*dx + dy*dy);
+		
+		double ux = dx / d;
+		double uy = dy / d;
+		
+		double ri = r + c.feet.r;
+		double p = ri - d;
+		
+		x += ux * p/2;
+		y += uy * p/2;
+		
+		c.feet.x -= ux * p/2;
+		c.feet.y -= uy * p/2;
+*/
+	}
+	
 	public void bounceOff(Circle c) {
 		double dx = c.x - x;
 		double dy = c.y - y;		
@@ -246,4 +262,29 @@ public class Circle {
 	public void released() {
 		held = false;
 	}
+	
+	public void moveLeft(int dx) {
+		x -= dx;
+	}
+
+	public void moveRight(int dx) {
+		x += dx;
+	}
+
+	public void moveUp(int dy) {
+		y -= dy;
+	}
+
+	public void moveDown(int dy) {
+		y += dy;
+	}
+	
+/*	
+	public boolean within(double d, Brawler b) {
+		double dx = x - b.x;
+		double dy = y - b.y;
+		return dx * dx + dy * dy < d * d;
+	}
+*/
+
 }

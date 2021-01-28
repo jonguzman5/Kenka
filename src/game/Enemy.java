@@ -91,11 +91,6 @@ public class Enemy extends Character {
 			//starting pt
 			bullet[bulletNum].x = x + (r+6) * cosA;
 			bullet[bulletNum].y = y + (r+6) * sinA;
-			
-			//if(bullet[bulletNum].x >= 500 || bullet[bulletNum].y >= 500) {
-				//bullet[bulletNum].vx = 0;
-				//bullet[bulletNum].vy = 0;
-			//}
 
 			launch_delay = launch_countdown;
 			

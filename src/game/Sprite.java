@@ -23,16 +23,16 @@ public class Sprite {
 
 	Animation[] animation;
 	
-	public Sprite(int x, int y, int action, String[] name, int duration, int count, String extension) {
+	public Sprite(int x, int y, int action, String[] pose, int duration, int count, String extension) {
 		this.x = x;
 		this.y = y;
 		this.action = action;
 		gun = new Circle(x, y, 1, 0);
 
-		animation = new Animation[name.length];
+		animation = new Animation[pose.length];
 
-		for (int i = 0; i < name.length; i++)
-			animation[i] = new Animation(name[i], duration, count, extension);
+		for (int i = 0; i < pose.length; i++)
+			animation[i] = new Animation(pose[i], duration, count, extension);
 	}
 
 	public void shoot(Circle[] bullet) {
@@ -73,6 +73,11 @@ public class Sprite {
 		y += dy;
 		action = DOWN;
 		moving = true;
+	}
+	
+	public void moveBy(double dx, double dy) {
+		x += dx;
+		y += dy;
 	}
 
 	public void draw(Graphics g) {
