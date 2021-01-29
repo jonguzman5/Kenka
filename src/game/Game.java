@@ -269,12 +269,17 @@ public class Game extends GameApplet {
 				bullet[i].y > brawler.y - 100 &&
 				bullet[i].x > brawler.x - 100 &&
 				bullet[i].y < brawler.y + 100
-			){ 
-				
+			)				
 				bullet[i].draw(g);
-			}
 		}
 		for (int i = 0; i < ebullet.length; i++) {
+			//only working bc ebullet.length = enemySets[i].count
+			if(
+				(ebullet[i].x < enemySets[lvl][i].x + 100) && //ebullet[i].x < enemySets[lvl][1].x + 100 && ebullet[i].x < enemySets[lvl][2].x + 100) &&
+				(ebullet[i].y > enemySets[lvl][i].y - 100) && //ebullet[i].y > enemySets[lvl][1].y - 100 && ebullet[i].y > enemySets[lvl][2].y - 100) &&
+				(ebullet[i].x > enemySets[lvl][i].x - 100) && //ebullet[i].x > enemySets[lvl][1].x - 100 && ebullet[i].x > enemySets[lvl][2].x - 100) &&
+				(ebullet[i].y < enemySets[lvl][i].y + 100)// && ebullet[i].y < enemySets[lvl][1].y + 100 && ebullet[i].y < enemySets[lvl][2].y + 100)
+			)	
 			ebullet[i].draw(g);
 		}
 		for (int i = 0; i < bossbullet.length; i++) {

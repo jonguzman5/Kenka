@@ -21,7 +21,7 @@ public class Animation {
 	public Image getCurrentImage() {
 		if(delay == 0) {
 			current++;
-			if(current == image.length) current = 1;
+			if(current == image.length-1) current = 1;//[-1] = exclude punch @move
 			delay = duration;
 		}
 		delay--;
@@ -30,5 +30,9 @@ public class Animation {
 	
 	public Image getStillImage() {
 		return image[0];
+	}
+	
+	public Image getCombatImage() {
+		return image[image.length-1];
 	}
 }

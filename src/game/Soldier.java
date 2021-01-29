@@ -10,6 +10,6 @@ public class Soldier extends Enemy {
 	};
 
 	public Soldier(int hit_points, int x, int y, int action) {
-		super(hit_points, x, y, action, pose, 10, 4, "png");
+		super(hit_points, x, y, action, pose, 10, 5, "png");
 	}
 }

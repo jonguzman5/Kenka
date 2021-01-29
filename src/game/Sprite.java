@@ -12,6 +12,7 @@ public class Sprite {
 	int action;
 
 	boolean moving = false;
+	boolean punching = false;
 
 	public final static int UP = 0;
 	public final static int DOWN = 1;
@@ -46,9 +47,9 @@ public class Sprite {
 			gun.setAngle(0);
 		gun.x = x;
 		gun.y = y+20;
-		
-		
+
 		gun.launch(bullet);
+		punching = true;
 	}
 	
 	public void moveLeft(int dx) {
@@ -81,10 +82,20 @@ public class Sprite {
 	}
 
 	public void draw(Graphics g) {
-		if (moving)
-			g.drawImage(animation[action].getCurrentImage(), x - Camera.x + Camera.x_origin, y - Camera.y + Camera.y_origin, 30, 60, null);		
-		else
+		if(moving && punching) {
+			g.drawImage(animation[action].getCombatImage(), x - Camera.x + Camera.x_origin, y - Camera.y + Camera.y_origin, 30, 60, null);
+			punching = false;
+		}
+		else if (moving) {
+			g.drawImage(animation[action].getCurrentImage(), x - Camera.x + Camera.x_origin, y - Camera.y + Camera.y_origin, 30, 60, null);
+		}
+		else if (punching) {
+			g.drawImage(animation[action].getCombatImage(), x - Camera.x + Camera.x_origin, y - Camera.y + Camera.y_origin, 30, 60, null);
+			punching = false;
+		}
+		else {
 			g.drawImage(animation[action].getStillImage(), x - Camera.x + Camera.x_origin, y - Camera.y + Camera.y_origin, 30, 60, null);
+		}
 		moving = false;
 	}
 	

@@ -1,7 +1,5 @@
 package game;
 
-import java.awt.Graphics;
-
 public class Brawler extends Character {
 	
 	public static final String[] pose = {
@@ -12,7 +10,7 @@ public class Brawler extends Character {
 	};
 
 	public Brawler(int hit_points, int x, int y, int action) {
-		super(hit_points, x - Camera.x + Camera.x_origin, y - Camera.y + Camera.y_origin, action, pose, 10, 4, "png");
+		super(hit_points, x - Camera.x + Camera.x_origin, y - Camera.y + Camera.y_origin, action, pose, 10, 5, "png");
 	}
 
 }
