@@ -63,7 +63,6 @@ public class Enemies {
 	KungFuMan[][] kungfumanSet = {kungfumanSet1, kungfumanSet2, kungfumanSet3};
 	KungFuMan bossKungfuman = new KungFuMan(200, 3300, 495, KungFuMan.LEFT);
 	
-	//NEED POPULATEHEALTHBAR METHOD
 	HealthBar[] khb1 = new HealthBar[setLen * setAm];
 	HealthBar[] khb2 = new HealthBar[setLen * setAm];
 	HealthBar[] khb3 = new HealthBar[setLen * setAm];

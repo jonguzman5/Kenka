@@ -27,8 +27,10 @@ public class Game extends GameApplet {
 	Circle[] bossbullet = new Circle[10];
 	Enemy[][] enemySets = enemies.enemySets[lvl];
 	HealthBar[][] enemyHealthBars = enemies.enemyHealthBars[lvl];
-	Enemy boss = enemies.bosses[lvl];
-	HealthBar bossHealthBars = enemies.bossHealthBars[lvl];
+	//Enemy boss = enemies.bosses[lvl];
+	//HealthBar bossHealthBars = enemies.bossHealthBars[lvl];
+	Enemy[] bosses = enemies.bosses;
+	HealthBar[] bossHealthBars = enemies.bossHealthBars;
 
 	// ----------------------------------Configuration--------------------------------------//
 	public void changeLevel() {
@@ -37,12 +39,11 @@ public class Game extends GameApplet {
 			map = lvls[lvl];
 			brawler.x = 0;
 			enemySets = enemies.enemySets[lvl];
-			//enemyHealthBars = enemies.enemyHealthBars[lvl];
-			setEnemyPosition(getBrawlerX() + 40, 0, enemySets[0], enemyHealthBars[0]);
-			setEnemyPosition(getBrawlerX() + 40, 81, enemySets[1], enemyHealthBars[1]);
-			setEnemyPosition(getBrawlerX() + 40, 162, enemySets[2], enemyHealthBars[2]);
-			boss = enemies.bosses[lvl];
-			//bossHealthBars = enemies.bossHealthBars[lvl];
+			setEnemyHealthBarPosition(0, enemySets[0], enemyHealthBars[0]);
+			setEnemyHealthBarPosition(81, enemySets[1], enemyHealthBars[1]);
+			setEnemyHealthBarPosition(162, enemySets[2], enemyHealthBars[2]);
+			//bosses = enemies.bosses;
+			setEnemyHealthBarPosition(243, bosses[lvl], bossHealthBars[lvl]);
 		}
 	}
 
@@ -54,9 +55,10 @@ public class Game extends GameApplet {
 		setBulletPosition(ebullet);
 		setBulletPosition(bossbullet);
 
-		setEnemyPosition(getBrawlerX() + 40, 0, enemySets[0], enemyHealthBars[0]);
-		setEnemyPosition(getBrawlerX() + 40, 81, enemySets[1], enemyHealthBars[1]);
-		setEnemyPosition(getBrawlerX() + 40, 162, enemySets[2], enemyHealthBars[2]);
+		setEnemyHealthBarPosition(0, enemySets[0], enemyHealthBars[0]);
+		setEnemyHealthBarPosition(81, enemySets[1], enemyHealthBars[1]);
+		setEnemyHealthBarPosition(162, enemySets[2], enemyHealthBars[2]);
+		setEnemyHealthBarPosition(243, bosses[lvl], bossHealthBars[lvl]);
 
 		double[][] v = { 
 				{ 4096, 720, 0, 720 }, // bottom
@@ -78,24 +80,25 @@ public class Game extends GameApplet {
 		}
 	}
 
-	public void setEnemyPosition(int x, int hby, Enemy[] enemies, HealthBar[] healthbar) {
+	public void setEnemyHealthBarPosition(int hby, Enemy[] enemies, HealthBar[] healthbar) {
 		for (int i = 0; i < enemies.length; i++) {
-			//enemies[i] = new Enemy(100, x, rnd.nextInt(480) + 360, Zombie.DOWN, Zombie.pose, 10, 4, "png");
 			healthbar[i] = new HealthBar(enemies[i], 620, hby, 100, 25);
 			hby += 27;
 		}
+	}
+	
+	public void setEnemyHealthBarPosition(int hby, Enemy boss, HealthBar healthbar) {
+		healthbar = new HealthBar(boss, 620, hby, 100, 25);
+		hby += 27;
 	}
 
 	// ----------------------------------Brawler=>Enemy--------------------------------------//
 
 	public void setBulletBehavior(Enemy[] enemies, Circle bullet) {
 		for (int j = 0; j < enemies.length; j++) {
-			//System.out.println(bullet.x);
-			//if(bullet.x < 300 || bullet.y < 300) {
-				if (enemies[j].alive && bullet.overlaps(enemies[j])) {
-					enemies[j].takesHitFor(20);
-				}	
-			//}
+			if (enemies[j].alive && bullet.overlaps(enemies[j])) {
+				enemies[j].takesHitFor(20);
+			}	
 		}
 	}
 
@@ -151,7 +154,7 @@ public class Game extends GameApplet {
 			if (!boss.within(90, brawler)) {
 				boss.turnToward(brawler);
 				boss.chase(brawler);
-				// bossZombie.launch(bossbullet);
+				//boss.launch(bossbullet);
 			}
 		}
 		for (int j = 0; j < l.length; j++) {
@@ -169,7 +172,7 @@ public class Game extends GameApplet {
 			setBulletBehavior(enemySets[0], bullet[i]);
 			setBulletBehavior(enemySets[1], bullet[i]);
 			setBulletBehavior(enemySets[2], bullet[i]);
-//			setBulletBehavior(boss, bullet[i]);
+			setBulletBehavior(bosses[lvl], bullet[i]);
 		}
 
 		// -----------------Enemy=>Brawler-----------------//
@@ -186,7 +189,7 @@ public class Game extends GameApplet {
 		setEnemyBehavior(enemySets[0]);
 		setEnemyBehavior(enemySets[1]);
 		setEnemyBehavior(enemySets[2]);
-		setEnemyBehavior(boss);
+		setEnemyBehavior(bosses[lvl]);
 		// ----------------------------------Brawler--------------------------------------//
 		if (pressing[UP]) {
 			if (map.clearAbove(brawler)) {
@@ -259,7 +262,7 @@ public class Game extends GameApplet {
 		renderEnemies(0, enemySets[0], enemyHealthBars[0], g);
 		renderEnemies(620, enemySets[1], enemyHealthBars[1], g);
 		renderEnemies(1580, enemySets[2], enemyHealthBars[2], g);
-		renderEnemies(2540, boss, bossHealthBars, g);
+		renderEnemies(2540, bosses[lvl], bossHealthBars[lvl], g);
 
 		for (int i = 0; i < bullet.length; i++) {
 			//if(bullet[i].x != -1000.0 && bullet[i].y != -1000.0)
@@ -275,10 +278,10 @@ public class Game extends GameApplet {
 		for (int i = 0; i < ebullet.length; i++) {
 			//only working bc ebullet.length = enemySets[i].count
 			if(
-				(ebullet[i].x < enemySets[lvl][i].x + 100) && //ebullet[i].x < enemySets[lvl][1].x + 100 && ebullet[i].x < enemySets[lvl][2].x + 100) &&
-				(ebullet[i].y > enemySets[lvl][i].y - 100) && //ebullet[i].y > enemySets[lvl][1].y - 100 && ebullet[i].y > enemySets[lvl][2].y - 100) &&
-				(ebullet[i].x > enemySets[lvl][i].x - 100) && //ebullet[i].x > enemySets[lvl][1].x - 100 && ebullet[i].x > enemySets[lvl][2].x - 100) &&
-				(ebullet[i].y < enemySets[lvl][i].y + 100)// && ebullet[i].y < enemySets[lvl][1].y + 100 && ebullet[i].y < enemySets[lvl][2].y + 100)
+				(ebullet[i].x < enemySets[lvl][i].x + 100) && 
+				(ebullet[i].y > enemySets[lvl][i].y - 100) && 
+				(ebullet[i].x > enemySets[lvl][i].x - 100) && 
+				(ebullet[i].y < enemySets[lvl][i].y + 100)
 			)	
 			ebullet[i].draw(g);
 		}
@@ -286,13 +289,14 @@ public class Game extends GameApplet {
 			bossbullet[i].draw(g);
 		}
 
-		if (brawler.x == 700) {
+		//if (brawler.x == 700) 
+		if(!bosses[lvl].alive)
 			changeLevel();
-		}
 
-		if (brawler.y == 640) {
+		//if (brawler.y == 640)
+		if(!bosses[lvl].alive)
 			changeLevel();
-		}
+		
 	}
 
 }
