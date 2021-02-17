@@ -52,9 +52,6 @@ public class Enemies {
 	HealthBar[][] zhb = {zhb1, zhb2, zhb3};
 	HealthBar bzhb = new HealthBar(bossZombie, 520, 243, 200, 25);
 	
-	Circle[] zbullet = new Circle[2];
-	Circle[] bzbullet = new Circle[10];
-	
 	//----------------------------------KungFuMan--------------------------------------//
 	
 	KungFuMan[] kungfumanSet1 = populateKungfumanArr();
@@ -69,9 +66,6 @@ public class Enemies {
 	HealthBar[][] khb = {khb1, khb2, khb3};
 	HealthBar bkhb = new HealthBar(bossKungfuman, 520, 243, 200, 25);
 	
-	Circle[] kbullet = new Circle[2];
-	Circle[] bkbullet = new Circle[10];
-	
 	//----------------------------------Soldier--------------------------------------//
 	
 	Soldier[] soldierSet1 = populateSoldierArr();
@@ -85,9 +79,6 @@ public class Enemies {
 	HealthBar[] shb3 = new HealthBar[setLen * setAm];
 	HealthBar[][] shb = {shb1, shb2, shb3};
 	HealthBar bshb = new HealthBar(bossSoldier, 520, 243, 200, 25);
-	
-	Circle[] sbullet = new Circle[2];
-	Circle[] bsbullet = new Circle[10];
 	
 	//----------------------------------Configuration--------------------------------------//
 	Enemy[][][] enemySets = {zombieSet, kungfumanSet, soldierSet};

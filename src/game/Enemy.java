@@ -40,13 +40,17 @@ public class Enemy extends Character {
 		return sinA * (b.x - x) - cosA * (b.y - y) > 0;
 	}
 	
+	public boolean inFrontOf(Brawler b){
+		return cosA * (b.x - x) + sinA * (b.y - y) > 0;	
+	}
+	
 	public boolean within(double distance, Brawler b) {
 		double dx = x - b.x;
 		double dy = y - b.y;
 		return dx * dx + dy * dy < distance * distance;
 	}
 
-	public void turnLeft(int da) {
+	public void turnLeft(int da) {		
 		a -= da;
 		if (a < 0)
 			a += 360;
@@ -54,7 +58,7 @@ public class Enemy extends Character {
 		sinA = Lookup.sin[a];
 	}
 
-	public void turnRight(int da) {
+	public void turnRight(int da) {		
 		a += da;
 		if (a > 359)
 			a -= 360;
@@ -69,11 +73,22 @@ public class Enemy extends Character {
 	}
 
 	public void turnToward(Brawler b) {
+		//if(inFrontOf(b)) {
+			//super.moveDown(0);
+		//}
 		if (toLeftOf(b)) {
 			turnLeft(4);
+			if((a > 90 && a < 270) && !(a < 90 && a > 270))//strict left (Q2+Q3) 
+				super.moveLeft(0);
+			else//Q4
+				super.moveDown(0);
 		}
 		else {
 			turnRight(4);
+			if((a < 90 && a > -90) && !(a > 90 && a < -90))//strict right (Q1+Q4)
+				super.moveRight(0);
+			else//Q2
+				super.moveUp(0);
 		}
 	}
 

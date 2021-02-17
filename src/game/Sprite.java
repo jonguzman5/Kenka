@@ -100,7 +100,14 @@ public class Sprite {
 	}
 	
 	public void drawBoss(Graphics g) {
-		if (moving) {
+		if(moving && punching) {
+			g.drawImage(animation[action].getCombatImage(), x - Camera.x + Camera.x_origin, y - Camera.y + Camera.y_origin, 60, 120, null);
+			punching = false;
+		}
+		else if (moving) {
+			g.drawImage(animation[action].getCurrentImage(), x - Camera.x + Camera.x_origin, y - Camera.y + Camera.y_origin, 60, 120, null);
+		}
+		else if (moving) {
 			g.drawImage(animation[action].getCurrentImage(), x - Camera.x + Camera.x_origin, y - Camera.y + Camera.y_origin, 60, 120, null);
 			//g.drawOval((int)(x - r) - Camera.x + Camera.x_origin + 30, (int)(y - r) - Camera.y + Camera.y_origin + 60, (int)r * 2, (int)r * 2);
 		}
